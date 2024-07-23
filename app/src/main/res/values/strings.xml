@@ -1,0 +1,65 @@
+<resources>
+
+    <string name="app_name">Mi Cuenta de Cobro</string>
+
+    <!--LABELS DE FORM PROVEEDOR DE SERVICIOS-->
+    <string name="proovedor_servicio_titulo_form">Crear Proveedor de Servicios</string>
+    <string name="cliente_titulo_form">Crear Cliente</string>
+
+    <string name="identificacion">Indentificacion</string>
+    <string name="nombre">Nombre</string>
+    <string name="ubicacion">Ubicacion</string>
+    <string name="telefono">Telefono</string>
+    <string name="email">Email</string>
+
+    <string name="boton_cancelar">"Cancelar "</string>
+    <string name="boton_aceptar">"Guardar "</string>
+
+    <string name="proovedor_servicio_uri">Ubicacion imagen</string>
+
+    <string name="buscar_imagen">"Buscar imagen "</string>
+
+    <string name="buscar_imagen_info">NOTA: Las dimensiones de la imagen debe ser de 100px de alto x 140px de ancho</string>
+
+    <string name="datos_proveedor_servicio">Datos Proveedor de Servicios</string>
+    <string name="datos_cliente">Datos del Cliente</string>
+
+    <string name="nueva_cuenta_cobro">Nueva Cuenta de Cobro</string>
+    <string name="informacion_no_disponible">Informacion no disponible</string>
+    <string name="lista_servicios_contratados">Lista de Servicios Contratados</string>
+    <string name="servicio_cantidad">Cantidad</string>
+    <string name="servicio_descripcion">Descripcion del servicio</string>
+    <string name="servicio_valor_unitario">Valor unitario</string>
+    <string name="servicio_valor_total">Valor Total</string>
+    <string name="servicio_titulo_form">Agregar servicio</string>
+    <string name="boton_agregar">Agregar</string>
+    <string name="doble_tap_eliminar">Doble tap para eliminar!</string>
+    <string name="total_servicio">"Total: "</string>
+    <string name="proovedor_servicio_nombre">Proveedor de servicios nombre</string>
+    <string name="proovedor_servicio_identificacion">Proveedor de servicios identificacion</string>
+    <string name="proovedor_servicio_ubicacion">Proveedor de servicios ubicacion</string>
+    <string name="proovedor_servicio_telefono">Proveedor de servicios telefono</string>
+    <string name="proovedor_servicio_email">Proveedor de servicios email</string>
+    <string name="cliente_nombre">Cliente nombre</string>
+    <string name="cliente_identificacin">Cliente identificacion</string>
+    <string name="cliente_ubicacion">Cliente ubicacion</string>
+    <string name="cliente_telefono">Cliente telefono</string>
+    <string name="cliente_email">Cliente email</string>
+    <string name="cuenta_cobro">Cuenta de cobro</string>
+    <string name="editar_contador_docs_emitidos">Editar contador de Documentos emitidos</string>
+    <string name="exportar_a_PDF">"Exportar a PDF "</string>
+    <string name="compartir">Compartir</string>
+    <string name="num_onsecutivo">Consecutivo</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="imagen_corp_proveedor_servicios">Imagen Corporativa</string>
+    <string name="guardar_imagen">Guadar imagen</string>
+    <string name="vista_previa">(Vista previa)</string>
+    <string name="ingrese_num_consecutivo">Ingrese numero consecutivo</string>
+    <string name="fecha_y_hora_expedicion">"Fecha y hora de expedicion: "</string>
+    <string name="compartir_pdf">"Compartir PDF"</string>
+    <string name="desea_compartir_pdf">Desea compartir el PDF generado?</string>
+    <string name="No">No</string>
+    <string name="Si">Si</string>
+    <string name="boton_agregar_servicio">"Agregar servicio "</string>
+
+</resources>

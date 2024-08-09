@@ -75,7 +75,7 @@ fun CargarImagenIntent(navController:NavHostController,
 
             TextH2 (
                 modifier = modifier,
-                text = stringResource(id = R.string.imagen_corp_proveedor_servicios)
+                text = stringResource(id = R.string.imagen_corporativa)
             )
         },
 

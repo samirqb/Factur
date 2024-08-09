@@ -180,9 +180,7 @@ fun CuendaDeCobroScreen(
                 }
 
             )
-        },
-
-        ) { innerPadding ->
+        },) { innerPadding ->
         /** I N I C I O   S C A F O L D */
         LazyColumn(modifier = modifier.padding(innerPadding)) {
 

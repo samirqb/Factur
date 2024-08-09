@@ -3,7 +3,7 @@
     <string name="app_name">Factur</string>
 
     <!--LABELS DE FORM PROVEEDOR DE SERVICIOS-->
-    <string name="proovedor_servicio_titulo_form">Crear Comerciante</string>
+    <string name="proovedor_servicio_titulo_form">"Info Comerciante"</string>
     <string name="btn_ingresa_aqui">"Ingresa aqui "</string>
     <string name="cliente_titulo_form">Crear Cliente</string>
 
@@ -55,7 +55,7 @@
     <string name="compartir">Compartir</string>
     <string name="num_onsecutivo">Consecutivo</string>
     <string name="actualizar">Actualizar</string>
-    <string name="imagen_corp_proveedor_servicios">Imagen Corporativa</string>
+    <string name="imagen_corporativa">Img Corporativa</string>
     <string name="guardar_imagen">Guadar imagen</string>
     <string name="vista_previa">(Vista previa)</string>
     <string name="ingrese_num_consecutivo">Ingrese numero consecutivo</string>

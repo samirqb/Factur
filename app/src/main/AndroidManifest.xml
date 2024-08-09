@@ -29,7 +29,7 @@
         </activity>
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.samirquiceno.micuentadecobro.fileprovider"
+            android:authorities="com.samirquiceno.factur.fileprovider"
             android:grantUriPermissions="true"
             android:exported="false">
             <meta-data

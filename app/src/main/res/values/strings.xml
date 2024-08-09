@@ -1,9 +1,10 @@
 <resources>
 
-    <string name="app_name">Mi Cuenta de Cobro</string>
+    <string name="app_name">Factur</string>
 
     <!--LABELS DE FORM PROVEEDOR DE SERVICIOS-->
-    <string name="proovedor_servicio_titulo_form">Crear Proveedor de Servicios</string>
+    <string name="proovedor_servicio_titulo_form">Crear Comerciante</string>
+    <string name="btn_ingresa_aqui">"Ingresa aqui "</string>
     <string name="cliente_titulo_form">Crear Cliente</string>
 
     <string name="identificacion">Indentificacion</string>
@@ -21,8 +22,9 @@
 
     <string name="buscar_imagen_info">NOTA: Las dimensiones de la imagen debe ser de 100px de alto x 140px de ancho</string>
 
-    <string name="datos_proveedor_servicio">Datos Proveedor de Servicios</string>
-    <string name="datos_cliente">Datos del Cliente</string>
+    <string name="datos_proveedor_servicio">Datos Comerciante</string>
+    <string name="datos_vendedor">Datos Vendedor</string>
+    <string name="datos_cliente">Datos Cliente</string>
 
     <string name="nueva_cuenta_cobro">Nueva Cuenta de Cobro</string>
     <string name="informacion_no_disponible">Informacion no disponible</string>
@@ -46,6 +48,8 @@
     <string name="cliente_telefono">Cliente telefono</string>
     <string name="cliente_email">Cliente email</string>
     <string name="cuenta_cobro">Cuenta de cobro</string>
+    <string name="factura">Factura</string>
+    <string name="cotizacion">Cotizacion</string>
     <string name="editar_contador_docs_emitidos">Editar contador de Documentos emitidos</string>
     <string name="exportar_a_PDF">"Exportar a PDF "</string>
     <string name="compartir">Compartir</string>
@@ -61,5 +65,10 @@
     <string name="No">No</string>
     <string name="Si">Si</string>
     <string name="boton_agregar_servicio">"Agregar servicio "</string>
+    <string name="inicio">Inicio</string>
+    <string name="menu">Menu</string>
+    <string name="antes_de_iniciar">"Para usar Factur debes ingresa los datos del comerciante o comercio antes de generar facturas, cuentas de cobro o cotizaciones."</string>
+    <string name="bienvenido">Bienvenido!</string>
+    <string name="ingresa_desde_aqui">"Ingresar datos aqui!"</string>
 
 </resources>

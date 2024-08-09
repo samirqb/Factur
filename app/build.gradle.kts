@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.samirquiceno.micuentadecobro"
+    namespace = "com.samirquiceno.factur"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.samirquiceno.micuentadecobro"
+        applicationId = "com.samirquiceno.factur"
         minSdk = 29
         targetSdk = 34
         versionCode = 1
@@ -47,6 +47,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
@@ -63,6 +64,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.webkit)
+    implementation(libs.androidx.ui.text.google.fonts)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

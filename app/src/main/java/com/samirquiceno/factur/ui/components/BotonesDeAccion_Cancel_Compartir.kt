@@ -1,5 +1,6 @@
 package com.samirquiceno.factur.ui.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -63,7 +64,10 @@ fun BotonesIconosDeAccion_Cancel_Compartir(
     //LazyVerticalStaggeredGrid(columns = StaggeredGridCells.Fixed(2), ) {
     Row(modifier = modifier.fillMaxWidth()) {
 
-        Column(modifier = modifier.weight(1f).wrapContentWidth(Alignment.End)) {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = modifier.weight(1f).wrapContentWidth(Alignment.End) ) {
             //Column(modifier = modifier) {
 
             CustomIconButton(
@@ -75,7 +79,7 @@ fun BotonesIconosDeAccion_Cancel_Compartir(
             )
 
             TextP1(
-                text = stringResource(id = R.string.boton_cancelar)
+                text = stringResource(id = R.string.no)
                 , textAlign = TextAlign.Center
                 , modifier = modifier
             )

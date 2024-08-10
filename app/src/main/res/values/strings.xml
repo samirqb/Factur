@@ -62,15 +62,15 @@
     <string name="fecha_y_hora_expedicion">"Fecha y hora de expedicion: "</string>
     <string name="compartir_pdf">"Compartir PDF"</string>
     <string name="desea_compartir_pdf">Desea compartir el PDF generado?</string>
-    <string name="No">No</string>
-    <string name="Si">Si</string>
     <string name="boton_agregar_servicio">"Agregar servicio "</string>
     <string name="inicio">Inicio</string>
     <string name="menu">Menu</string>
     <string name="antes_de_iniciar">"Para usar Factur debes ingresa los datos del comerciante o comercio antes de generar facturas, cuentas de cobro o cotizaciones."</string>
     <string name="bienvenido">Bienvenido!</string>
     <string name="ingresa_desde_aqui">"Ingresar datos aqui!"</string>
-    <string name="no">No</string>
+    <string name="si">Si</string>
+    <string name="no_compartir">"No compartir"</string>
     <string name="servicio_no_guardado">Cancelar: No se guardo el servicio.</string>
+    <string name="no">No</string>
 
 </resources>

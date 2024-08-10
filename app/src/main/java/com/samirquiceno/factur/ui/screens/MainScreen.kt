@@ -265,7 +265,9 @@ fun MainScreen(
                                         )
                                     }
                                     */
-                                ,painter = painterResource(id = R.drawable.outline_request_quote_24), contentDescription = "" )
+                                ,painter = painterResource(id = R.drawable.outline_request_quote_24),
+                                contentDescription = ""
+                            )
                         }
                     )
 

@@ -2,6 +2,8 @@ package com.samirquiceno.factur.ui.forms
 
 import android.annotation.SuppressLint
 import android.icu.text.NumberFormat
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
@@ -10,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
@@ -32,6 +35,7 @@ fun ServicioForm(
     servicio_id:String,
     modifier: Modifier = Modifier,
 ) {
+    var context = LocalContext.current
 
     var entity = servicioViewModel.servicioDataStore.value.listaServicioEntity
 
@@ -133,7 +137,10 @@ fun ServicioForm(
         BotonesDeAccion(
             enabledGuardarButton = enabledGuardarButton,
             modifier = modifier
-            , onCancelar = { navController.popBackStack() }
+            , onCancelar = {
+                Toast.makeText(context, R.string.servicio_no_guardado,Toast.LENGTH_SHORT ).show()
+                navController.navigateUp()
+                           }
 
             , onGuardar = {
                 runBlocking {
@@ -147,7 +154,8 @@ fun ServicioForm(
                     )
                 }
 
-                navController.popBackStack()
+                //navController.popBackStack()
+                navController.navigateUp()
 
             }
         )
@@ -156,7 +164,12 @@ fun ServicioForm(
         BotonesDeAccion(
             enabledGuardarButton = enabledGuardarButton,
             modifier = modifier
-            , onCancelar = { navController.popBackStack() }
+            , onCancelar = {
+                Log.d("_xxx","Cancelar: No se guardo el servicio!")
+                //navController.popBackStack()
+                navController.navigateUp()
+                Toast.makeText(context, R.string.servicio_no_guardado,Toast.LENGTH_SHORT ).show()
+                }
 
             , onGuardar = {
                 runBlocking {
@@ -167,7 +180,8 @@ fun ServicioForm(
                         , valor_total_del_servicio = servicio_valor_total.toInt()))
                 }
 
-                navController.popBackStack()
+                //navController.popBackStack()
+                navController.navigateUp()
             }
         )
     }

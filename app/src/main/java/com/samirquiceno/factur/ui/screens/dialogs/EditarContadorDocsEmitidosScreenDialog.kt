@@ -69,7 +69,10 @@ fun EditarContadorDocsEmitidosScreenDialog(
 
                         enabledGuardarButton = if(value2.isNotEmpty()) true else false,
 
-                        onCancelar = { navController.popBackStack() }
+                        onCancelar = {
+                            //navController.popBackStack()
+                            navController.navigateUp()
+                                     }
 
                         , onGuardar = {
                             //cuentaDeCobroViewModel.incrementarContadorDocsEmitidos(value2.toInt())
@@ -84,7 +87,8 @@ fun EditarContadorDocsEmitidosScreenDialog(
 
                             //cuentaDeCobroViewModel.actualizarContadorDocsEmitidos(value2.toInt())
 
-                            navController.popBackStack()
+                            //navController.popBackStack()
+                            navController.navigateUp()
                         }
                     )
                 }

@@ -27,7 +27,7 @@ fun BotonesDeAccion_Cancel_Compartir(
 
             CustomOutlineButton(
                 enabled = enabledCancelButton,
-                text = R.string.boton_cancelar,
+                text = R.string.no,
                 icono = R.drawable.baseline_cancel_24,
                 onClick = onCancelar,
                 modifier = modifier.wrapContentWidth(Alignment.Start),
@@ -68,7 +68,7 @@ fun BotonesIconosDeAccion_Cancel_Compartir(
 
             CustomIconButton(
                 enabled = enabledCancelButton,
-                text = R.string.boton_cancelar,
+                text = R.string.no,
                 icono = R.drawable.baseline_cancel_24,
                 onClick = onCancelar,
                 modifier = modifier,

@@ -135,7 +135,10 @@ fun ClienteForm(
                 && cliente_telefono_tool
                 && cliente_email_tool ) { true } else { false }
 
-            , onCancelar = {navController.popBackStack()}
+            , onCancelar = {
+                //navController.popBackStack()
+                navController.navigateUp()
+                           }
             , onGuardar = {
                 runBlocking {
                     clienteViewModel.insert(
@@ -149,8 +152,8 @@ fun ClienteForm(
                     )
                 }
 
-                navController.popBackStack()
-
+                //navController.popBackStack()
+                navController.navigateUp()
             }
         )
     }

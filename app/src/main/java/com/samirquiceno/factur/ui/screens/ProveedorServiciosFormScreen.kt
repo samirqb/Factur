@@ -80,7 +80,8 @@ fun ProveedorServiciosFormScreen(
                                     contentDescription = null),
                                 onClick = {
 
-                                    navController.popBackStack()
+                                    //navController.popBackStack()
+                                    navController.navigateUp()
 
                                 }
                             )

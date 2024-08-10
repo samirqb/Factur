@@ -96,7 +96,10 @@ fun ProveedorServiciosForm(
 
         BotonesDeAccion(
             modifier = modifier,
-            onCancelar = {navController.popBackStack()}
+            onCancelar = {
+                //navController.popBackStack()
+                navController.navigateUp()
+                         }
             , enabledGuardarButton = if (
                 proovedor_servicio_identificacion_bool && proovedor_servicio_nombre_bool
                 && proovedor_servicio_ubicacion_bool && proovedor_servicio_telefono_bool
@@ -116,8 +119,8 @@ fun ProveedorServiciosForm(
                     )
                 }
 
-                navController.popBackStack()
-
+                //navController.popBackStack()
+                navController.navigateUp()
             }
         )
     }

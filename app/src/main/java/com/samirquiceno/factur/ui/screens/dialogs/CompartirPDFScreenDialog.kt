@@ -49,7 +49,10 @@ fun CompartirPDFScreenDialog(
                     BotonesIconosDeAccion_Cancel_Compartir(
                         //modifier = modifier,
 
-                        onCancelar = { navController.popBackStack() }
+                        onCancelar = {
+                            //navController.popBackStack()
+                            navController.navigateUp()
+                                     }
 
                         , onCompartir = {
 
@@ -59,7 +62,8 @@ fun CompartirPDFScreenDialog(
                             }
 
 
-                            navController.popBackStack()
+                            //navController.popBackStack()
+                            navController.navigateUp()
                         }
                     )
 

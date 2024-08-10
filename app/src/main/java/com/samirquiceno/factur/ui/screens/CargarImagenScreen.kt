@@ -131,7 +131,8 @@ fun CargarImagenScreen(
                                     painter = painterResource(id = R.drawable.baseline_arrow_back_24 ),
                                     contentDescription = null),
                                 onClick = {
-                                    navController.popBackStack()
+                                    //navController.popBackStack()
+                                    navController.navigateUp()
                                     //Toast.makeText(context,"Boton de Menu OK!",Toast.LENGTH_SHORT).show()
                                 }
                             )

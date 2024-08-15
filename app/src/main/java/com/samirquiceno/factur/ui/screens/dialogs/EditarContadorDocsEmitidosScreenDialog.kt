@@ -11,6 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.samirquiceno.factur.R
+import com.samirquiceno.factur.models.CotizacionContadorEntity
 import com.samirquiceno.factur.models.CuentaDeCobroContadorEntity
 import com.samirquiceno.factur.tools.RestriccionesDeCamposDeEntradas
 import com.samirquiceno.factur.ui.components.BotonesIconosDeAccion
@@ -18,6 +19,7 @@ import com.samirquiceno.factur.ui.components.CustomCardSmallComponent
 import com.samirquiceno.factur.ui.components.CustomOutlinedNumberField
 import com.samirquiceno.factur.ui.components.TextH2
 import com.samirquiceno.factur.ui.components.TextP1
+import com.samirquiceno.factur.viewmodels.CotizacionViewModel
 import com.samirquiceno.factur.viewmodels.CuentaDeCobroViewModel
 import kotlinx.coroutines.runBlocking
 
@@ -26,9 +28,11 @@ import kotlinx.coroutines.runBlocking
 fun EditarContadorDocsEmitidosScreenDialog(
     navController: NavHostController,
     //onDismissRequest: ()->Unit,
+    cotizacionViewModel: CotizacionViewModel,
     cuentaDeCobroViewModel: CuentaDeCobroViewModel,
-    modifier: Modifier = Modifier
-
+    //facturaViewModel: FacturaViewModel,
+    modifier: Modifier = Modifier,
+    contador_id :String?
 ) {
 
 
@@ -38,9 +42,9 @@ fun EditarContadorDocsEmitidosScreenDialog(
     val openAlertDialog3 = rememberSaveable { mutableStateOf(false) }
     */
 
-    var value = rememberSaveable { mutableStateOf("") }
-    var value1 = rememberSaveable { mutableStateOf("") }
-    var value2 by rememberSaveable { mutableStateOf("") }
+    var contador_cotizacion by rememberSaveable { mutableStateOf("") }
+    var contador_cuenta_cobro by rememberSaveable { mutableStateOf("") }
+    var contador_factura by rememberSaveable { mutableStateOf("") }
 
     Dialog(
         onDismissRequest = { navController.popBackStack() },
@@ -56,18 +60,53 @@ fun EditarContadorDocsEmitidosScreenDialog(
 
                     TextP1(modifier = modifier, text = "Ingrese el numero consecutivo")
 
+                    /*
                     CustomOutlinedNumberField(
                         label = R.string.num_onsecutivo
-                        , value = value2
+                        , value = contador_cuenta_cobro
                         , textMaxChar = 9
-                        , onValueChange = { if ( it.length <= 9) value2 = RestriccionesDeCamposDeEntradas.soloNumeros(it) }
+                        , onValueChange = { if ( it.length <= 9) contador_cuenta_cobro = RestriccionesDeCamposDeEntradas.soloNumeros(it) }
                         , modifier = modifier
                     )
+                    */
+
+                    if (contador_id == "contador_cotizacion" ){
+                        CustomOutlinedNumberField(
+                            label = R.string.num_onsecutivo
+                            , value = contador_cotizacion
+                            , textMaxChar = 9
+                            , onValueChange = { if ( it.length <= 9) contador_cotizacion = RestriccionesDeCamposDeEntradas.soloNumeros(it) }
+                            , modifier = modifier
+                        )
+                    }
+
+                    if (contador_id == "contador_cuenta_cobro" ){
+                        CustomOutlinedNumberField(
+                            label = R.string.num_onsecutivo
+                            , value = contador_cuenta_cobro
+                            , textMaxChar = 9
+                            , onValueChange = { if ( it.length <= 9) contador_cuenta_cobro = RestriccionesDeCamposDeEntradas.soloNumeros(it) }
+                            , modifier = modifier
+                        )
+                    }
+
+                    if (contador_id == "contador_factura" ){
+                        CustomOutlinedNumberField(
+                            label = R.string.num_onsecutivo
+                            , value = contador_factura
+                            , textMaxChar = 9
+                            , onValueChange = { if ( it.length <= 9) contador_factura = RestriccionesDeCamposDeEntradas.soloNumeros(it) }
+                            , modifier = modifier
+                        )
+                    }
 
                     BotonesIconosDeAccion(
                         //modifier = modifier
 
-                        enabledGuardarButton = if(value2.isNotEmpty()) true else false,
+                        enabledGuardarButton = if( contador_cotizacion.isNotEmpty()
+                            || contador_cuenta_cobro.isNotEmpty()
+                            || contador_factura.isNotEmpty() ) true
+                        else false,
 
                         onCancelar = {
                             //navController.popBackStack()
@@ -78,11 +117,40 @@ fun EditarContadorDocsEmitidosScreenDialog(
                             //cuentaDeCobroViewModel.incrementarContadorDocsEmitidos(value2.toInt())
 
                             runBlocking {
+
+                                /*
                                 cuentaDeCobroViewModel.insert(
                                     entity = CuentaDeCobroContadorEntity(
-                                        contador = value2.toInt(),
+                                        contador = contador_cuenta_cobro.toInt(),
                                     )
                                 )
+                                */
+
+                                if (contador_id == "contador_cotizacion" ){
+                                    cotizacionViewModel.insert(
+                                        entity = CotizacionContadorEntity(
+                                            contador = contador_cotizacion.toInt(),
+                                        )
+                                    )
+                                }
+                                if (contador_id == "contador_cuenta_cobro" ){
+                                    cuentaDeCobroViewModel.insert(
+                                        entity = CuentaDeCobroContadorEntity(
+                                            contador = contador_cuenta_cobro.toInt(),
+                                        )
+                                    )
+                                }
+
+                                /* -> H A B I L I T A D O   P R O X I M A M E N T E
+                                if (contador_id == "contador_factura" ){
+                                    facturaViewModel.insert(
+                                        entity = FacturaContadorEntity(
+                                            contador = contador_factura.toInt(),
+                                        )
+                                    )
+                                }
+                                */
+
                             }
 
                             //cuentaDeCobroViewModel.actualizarContadorDocsEmitidos(value2.toInt())

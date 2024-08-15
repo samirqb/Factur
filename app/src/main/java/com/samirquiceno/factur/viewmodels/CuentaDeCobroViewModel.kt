@@ -17,7 +17,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.samirquiceno.factur.mApplication
 import com.samirquiceno.factur.models.CuentaDeCobroContadorEntity
 import com.samirquiceno.factur.models.CuentaDeCobroEntity
-import com.samirquiceno.factur.repositories.ImagenRepository
+import com.samirquiceno.factur.repositories.ImagenCorporativaRepository
 import com.samirquiceno.factur.repositories.interfaces.IBaseRepository
 import com.samirquiceno.factur.tools.FechaHoraSistema
 import com.samirquiceno.factur.tools.GenerarPdf
@@ -35,7 +35,8 @@ import kotlinx.coroutines.runBlocking
 class CuentaDeCobroViewModel(
     application: Application,
     private var _repository: IBaseRepository<CuentaDeCobroContadorEntity>,
-    private var _imagen_repository: ImagenRepository
+    //private var _imagen_repository: ImagenRepository
+    private var _imagen_corporativa_repository: ImagenCorporativaRepository
 ): AndroidViewModel(application), IBaseViewModel<CuentaDeCobroContadorEntity> {
 
     //lateinit var pdf_generado_uri: Uri
@@ -56,9 +57,12 @@ class CuentaDeCobroViewModel(
 
     init {
         actualizarFechaHoraSistema()
+
+        /*
         updateImagenStatusFromRepo(
             readImagen(context = context, nombre_imagen = "imagen_corporativa")
         )
+        */
     }
 
 
@@ -135,6 +139,7 @@ class CuentaDeCobroViewModel(
     }
 
 
+    /*
     suspend fun insertarImagen(context: Context, nombre_imagen:String, uri: Uri){
 
         _imagen_repository.insert(context = context, nombre_imagen= nombre_imagen, uri=uri)
@@ -146,7 +151,7 @@ class CuentaDeCobroViewModel(
             )
         }
     }
-
+    */
 
     fun updateImagenStatusFromRepo(uri:Uri?){
 
@@ -158,13 +163,14 @@ class CuentaDeCobroViewModel(
         }
     }
 
-
+    /*
     fun readImagen(context: Context, nombre_imagen:String):Uri?{
 
         val uri = _imagen_repository.read(context = context, nombre_imagen= nombre_imagen)
 
         return uri
     }
+    */
 
 
     fun generarPDF(
@@ -188,12 +194,14 @@ class CuentaDeCobroViewModel(
 
                 val application = this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as Application
                 val repository = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as mApplication).mCuentaDeCobroRepository
-                val imagen_repository = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as mApplication).mImagenRepository
+                //val imagen_repository = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as mApplication).mImagenRepository
+                val imagen_corporativa_repository = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as mApplication).mImagenCorporativaRepository
 
                 CuentaDeCobroViewModel(
                     application = application,
                     _repository = repository,
-                    _imagen_repository = imagen_repository
+                    //_imagen_repository = imagen_repository
+                    _imagen_corporativa_repository = imagen_corporativa_repository
                 )
             }
         }

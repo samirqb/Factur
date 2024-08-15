@@ -1,5 +1,6 @@
 package com.samirquiceno.factur.ui.screens
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.icu.text.NumberFormat
@@ -9,7 +10,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
@@ -49,7 +49,7 @@ import com.example.compose.primaryContainerDark
 import com.example.compose.primaryContainerLight
 import com.samirquiceno.factur.R
 import com.samirquiceno.factur.models.ClienteEntity
-import com.samirquiceno.factur.models.CuentaDeCobroEntity
+import com.samirquiceno.factur.models.CotizacionEntity
 import com.samirquiceno.factur.models.ProveedorServiciosEntity
 import com.samirquiceno.factur.models.ServicioEntity
 import com.samirquiceno.factur.nav.Screen
@@ -61,51 +61,46 @@ import com.samirquiceno.factur.ui.components.CustomOutlineButton
 import com.samirquiceno.factur.ui.components.TextH2
 import com.samirquiceno.factur.ui.components.TextH3
 import com.samirquiceno.factur.viewmodels.ClienteViewModel
-import com.samirquiceno.factur.viewmodels.CuentaDeCobroViewModel
+import com.samirquiceno.factur.viewmodels.CotizacionViewModel
+import com.samirquiceno.factur.viewmodels.ImagenCorporativaViewModel
 import com.samirquiceno.factur.viewmodels.ProveedorServiciosViewModel
 import com.samirquiceno.factur.viewmodels.ServicioViewModel
 import kotlinx.coroutines.runBlocking
 
-
-@RequiresApi(Build.VERSION_CODES.S)
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("StateFlowValueCalledInComposition", "Range")
 @Composable
-fun CuendaDeCobroScreen(
+fun CotizacionScreen (
     navController: NavHostController
     , onNavigateToDialog: () -> Unit
     , onNavigateToDialogComparitPDF: () -> Unit
     //, onDismissRequest : ()-> Unit
     , modifier: Modifier
+    , imagenCorporativaViewModel : ImagenCorporativaViewModel
     , proveedorServiciosViewModel : ProveedorServiciosViewModel
     , clienteViewModel: ClienteViewModel
     , servicioViewModel: ServicioViewModel
-    , cuentaDeCobroViewModel: CuentaDeCobroViewModel
+    , cotizacionViewModel: CotizacionViewModel
 ){
-
 
     val context = LocalContext.current
 
-
     var mNumFormat = NumberFormat.getCurrencyInstance()
 
-
-    var fecha_expedicion_cuenta_de_cobro = cuentaDeCobroViewModel
-        .cuentaDeCobroDataState
+    var fecha_expedicion_cotizacion = cotizacionViewModel
+        .cotizacionDataState
         .value
-        .cuenta_de_cobro_fecha_expedicion
+        .cotizacion_fecha_expedicion
         .value.toString()
 
-
-    var hora_expedicion_cuenta_de_cobro = cuentaDeCobroViewModel
-        .cuentaDeCobroDataState
+    var hora_expedicion_cotizacion = cotizacionViewModel
+        .cotizacionDataState
         .value
-        .cuenta_de_cobro_hora_expedicion
+        .cotizacion_hora_expedicion
         .value.toString()
 
-
-    var mCuentaDeCobroContadorEntity = cuentaDeCobroViewModel.read("").observeAsState()
-    cuentaDeCobroViewModel.actualizarContadorDocsEmitidos(mCuentaDeCobroContadorEntity)
+    var mCotizacionContadorEntity = cotizacionViewModel.read("").observeAsState()
+    cotizacionViewModel.actualizarContadorDocsEmitidos(mCotizacionContadorEntity)
 
 
     var mProveedorServicioEntity = proveedorServiciosViewModel.read("").observeAsState()
@@ -116,7 +111,7 @@ fun CuendaDeCobroScreen(
     clienteViewModel.updateClienteDataState(mClienteEntity)
 
 
-    var contador_documentos_emitidos = mCuentaDeCobroContadorEntity.value?.contador
+    var contador_documentos_emitidos = mCotizacionContadorEntity.value?.contador
 
 
     var proveedor_serv_identificacion = mProveedorServicioEntity.value?.identificacion
@@ -139,7 +134,6 @@ fun CuendaDeCobroScreen(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-            //TopAppBar(
                 modifier = Modifier.fillMaxWidth(),
                 colors = TopAppBarDefaults.topAppBarColors(
 
@@ -154,7 +148,7 @@ fun CuendaDeCobroScreen(
                     /** titulo - Cuenta de Cobro */
                     TextH2(
                         modifier = modifier,
-                        text =  stringResource(id = R.string.cuenta_cobro)
+                        text =  stringResource(id = R.string.cotizacion)
                     )
                 },
 
@@ -171,9 +165,7 @@ fun CuendaDeCobroScreen(
                                     modifier = Modifier.size(30.dp),
                                     painter = painterResource(id = R.drawable.baseline_arrow_back_24 ), contentDescription = null),
                                 onClick = {
-                                    //navController.popBackStack()
                                     navController.navigateUp()
-                                    //Toast.makeText(context,"Boton de Menu OK!",Toast.LENGTH_SHORT).show()
                                 }
                             )
                         }
@@ -186,7 +178,6 @@ fun CuendaDeCobroScreen(
         LazyColumn(modifier = modifier.padding(innerPadding)) {
 
             /** HEADER  --------------------------------------------------------------------------*/
-
             /** HEADER.SECCION: titulo de la aplicacion */
 
             item {
@@ -214,6 +205,8 @@ fun CuendaDeCobroScreen(
                             .pointerInput(Unit) {
                                 detectTapGestures(
                                     onTap = {
+                                        //onNavigateToDialog()
+                                        //navController.navigate(route = Screen.ServicioFormScreenRoute.route_screen+"/$index")
                                         onNavigateToDialog()
                                     }
                                 )
@@ -224,45 +217,6 @@ fun CuendaDeCobroScreen(
                         contentDescription = ""
                     )
                 }
-
-                /*
-                Column {
-
-                    /** contador de documentos emitidos  */
-                    Row {
-
-                        if (contador_documentos_emitidos == null){
-                            TextH3(
-                                modifier = modifier
-                                , text = stringResource( id = R.string.ingrese_num_consecutivo)
-                            )
-                        } else {
-                            TextH3(
-                                modifier = modifier
-                                , text = stringResource( id = R.string.num_onsecutivo) + ": ${ contador_documentos_emitidos }"
-                            )
-                        }
-
-
-                        Icon(
-
-                            modifier = modifier
-                                .scale(1f)
-                                .pointerInput(Unit) {
-                                    detectTapGestures(
-                                        onTap = {
-                                            onNavigateToDialog()
-                                        }
-                                    )
-                                },
-
-                            imageVector = ImageVector.vectorResource(id = R.drawable.outline_edit_24),
-
-                            contentDescription = ""
-                        )
-                    }
-                }
-                */
 
                 Spacer(modifier = modifier)
                 Spacer(modifier = modifier)
@@ -284,7 +238,7 @@ fun CuendaDeCobroScreen(
                             contentDescription = ""
                         )
 
-                        TextH3(textAlign = TextAlign.End, modifier = modifier, text = fecha_expedicion_cuenta_de_cobro )
+                        TextH3(textAlign = TextAlign.End, modifier = modifier, text = fecha_expedicion_cotizacion )
                     }
 
                     Row(modifier = Modifier.weight(1f)) {
@@ -294,7 +248,7 @@ fun CuendaDeCobroScreen(
                             contentDescription = ""
                         )
 
-                        TextH3(textAlign = TextAlign.End, modifier = modifier, text = hora_expedicion_cuenta_de_cobro)
+                        TextH3(textAlign = TextAlign.End, modifier = modifier, text = hora_expedicion_cotizacion)
                     }
                 }
 
@@ -317,9 +271,6 @@ fun CuendaDeCobroScreen(
                         TextH3( textAlign = TextAlign.End, modifier = modifier, text = "${mNumFormat.format(servicioViewModel.sumaTotalServicios())}" )
                     }
 
-                    //TextH3( textAlign = TextAlign.End, modifier = modifier, text = "Total a pagar:" )
-                    //TextH3( textAlign = TextAlign.End, modifier = modifier, text = "${servicioViewModel.sumaTotalServicios()}" )
-
                 }
 
                 Spacer(modifier = modifier)
@@ -327,143 +278,8 @@ fun CuendaDeCobroScreen(
             }
 
 
-            /** B O D Y ------------------------------------------------------------------------------*/
-
+            /** B O D Y --------------------------------------------------------------------------*/
             /** BODY.SECCION: imagen corporativa del Proveedor de Servicios */
-            /*
-            item {
-                CargarImagenIntent(
-                    navController = navController,
-                    cuentaDeCobroViewModel = cuentaDeCobroViewModel,
-                    modifier = modifier)
-
-                Spacer(modifier = modifier)
-            }
-            */
-
-            /*
-            /** BODY.SECCION: informacion del Proveedor de Servicios */
-            item {
-
-                if ((proveedor_serv_identificacion == null) or (proveedor_serv_identificacion =="")
-                    and (proveedor_serv_nombre == null) or (proveedor_serv_nombre =="")
-                    and (proveedor_serv_telefono == null) or (proveedor_serv_telefono =="")
-                    and (proveedor_serv_email == null) or (proveedor_serv_email =="")
-                    and (proveedor_serv_ubicacion == null) or (proveedor_serv_ubicacion =="")
-                ){
-
-
-                    CustomCardComponent(
-                        titulo = {
-                            TextH2 (
-                                modifier = modifier,
-                                text = stringResource(id = R.string.datos_proveedor_servicio)
-                            )
-                        },
-
-                        content = {
-                            TextH3(
-                                modifier = modifier,
-                                text = stringResource(id = R.string.informacion_no_disponible)
-                            )
-                        },
-
-                        modifier = modifier,
-
-                        onClick = {
-                            navController.navigate( route = Screen.ProveedorServiciosFormScreenRoute.route_screen )
-                        }
-                    )
-
-                } else {
-
-                    CustomCardComponent(
-
-                        titulo = {
-                            TextH2(
-                                modifier = modifier,
-                                text = stringResource(id = R.string.datos_proveedor_servicio)
-                            )
-                        },
-
-                        content = {
-
-                            Column(modifier = Modifier.fillMaxWidth()) {
-
-                                Row(modifier = modifier) {
-                                    Icon(
-                                        modifier = modifier.weight(01f)
-                                        , painter = painterResource(id = R.drawable.outline_tag_24)
-                                        , contentDescription = stringResource(id = R.string.proovedor_servicio_identificacion)
-                                        //, modifier = modifier
-                                    )
-
-                                    TextH3(
-                                        modifier = modifier.weight(7f),
-                                        text = "${proveedor_serv_identificacion}")
-                                }
-
-                                Row(modifier= modifier) {
-                                    Icon(
-                                        modifier = modifier.weight(01f)
-                                        , painter = painterResource(id = R.drawable.outline_add_business_24)
-                                        , contentDescription = stringResource(id = R.string.proovedor_servicio_nombre)
-                                        //, modifier = modifier
-                                    )
-
-                                    TextH3(modifier = modifier.weight(7f),
-                                        text = "${proveedor_serv_nombre}")
-                                }
-
-
-                                Row(modifier= modifier) {
-                                    Icon(
-                                        modifier = modifier.weight(01f)
-                                        , painter = painterResource(id = R.drawable.baseline_phone_24)
-                                        , contentDescription = stringResource(id = R.string.proovedor_servicio_telefono)
-                                        //, modifier = modifier
-                                    )
-
-                                    TextH3(modifier = modifier.weight(7f),text = "${proveedor_serv_telefono}")
-                                }
-
-                                Row(modifier= modifier) {
-
-                                    Icon(
-                                        modifier = modifier.weight(01f)
-                                        , painter = painterResource(id = R.drawable.outline_alternate_email_24)
-                                        , contentDescription = stringResource(id = R.string.proovedor_servicio_email)
-                                        //, modifier = modifier
-                                    )
-
-                                    TextH3(modifier = modifier.weight(7f),text = "${proveedor_serv_email}")
-                                }
-
-                                Row(modifier= modifier) {
-
-                                    Icon(
-                                        modifier = modifier.weight(1f)
-                                        , painter = painterResource(id = R.drawable.outline_location_on_24)
-                                        , contentDescription = stringResource(id = R.string.proovedor_servicio_ubicacion)
-                                        //, modifier = modifier
-                                    )
-
-                                    TextH3(modifier = modifier.weight(7f),text = "${proveedor_serv_ubicacion}")
-                                }
-                            }
-                        },
-
-                        modifier = modifier,
-
-                        onClick = {
-                            navController.navigate( route = Screen.ProveedorServiciosFormScreenRoute.route_screen )
-                        }
-                    )
-                }
-
-                Spacer(modifier = modifier)
-            }
-            */
 
             /** BODY.SECCION: informacion del Cliente */
             item {
@@ -516,7 +332,6 @@ fun CuendaDeCobroScreen(
                                         modifier = modifier.weight(1f)
                                         , painter = painterResource(id = R.drawable.outline_tag_24)
                                         , contentDescription = stringResource(id = R.string.cliente_identificacin)
-                                        //, modifier = modifier
                                     )
 
                                     TextH3(modifier = modifier.weight(7f),text = "${cliente_identificacion}")
@@ -527,7 +342,6 @@ fun CuendaDeCobroScreen(
                                         modifier = modifier.weight(1f)
                                         , painter = painterResource(id = R.drawable.outline_person_outline_24)
                                         , contentDescription = stringResource(id = R.string.cliente_nombre)
-                                        //, modifier = modifier
                                     )
 
                                     TextH3(modifier = modifier.weight(7f),text = "${cliente_nombre}")
@@ -538,7 +352,6 @@ fun CuendaDeCobroScreen(
                                         modifier = modifier.weight(1f)
                                         , painter = painterResource(id = R.drawable.baseline_phone_24)
                                         , contentDescription = stringResource(id = R.string.cliente_telefono)
-                                        //, modifier = modifier
                                     )
 
                                     TextH3(modifier = modifier.weight(7f),text = "${cliente_telefono}")
@@ -549,7 +362,6 @@ fun CuendaDeCobroScreen(
                                         modifier = modifier.weight(1f)
                                         , painter = painterResource(id = R.drawable.outline_alternate_email_24)
                                         , contentDescription = stringResource(id = R.string.cliente_email)
-                                        //, modifier = modifier
                                     )
 
                                     TextH3(modifier = modifier.weight(7f),text = "${cliente_email}")
@@ -560,7 +372,6 @@ fun CuendaDeCobroScreen(
                                         modifier = modifier.weight(1f)
                                         , painter = painterResource(id = R.drawable.outline_location_on_24)
                                         , contentDescription = stringResource(id = R.string.cliente_ubicacion)
-                                        //, modifier = modifier
                                     )
 
                                     TextH3(modifier = modifier.weight(7f),text = "${cliente_ubicacion}")
@@ -591,7 +402,6 @@ fun CuendaDeCobroScreen(
                 Spacer(modifier = modifier.padding(top = 19.dp))
 
                 TextH2(
-                    //color = colorScheme.primaryContainer,
                     text = stringResource(id = R.string.lista_servicios_contratados)
                     ,   modifier = modifier
                 )
@@ -603,7 +413,6 @@ fun CuendaDeCobroScreen(
                     )
                 }
             }
-
 
             /** BODY.SECCION: lista de servicios */
             itemsIndexed( servicioViewModel.servicioDataStore.value.listaServicioEntity ){ index, servicioAgregado ->
@@ -640,7 +449,6 @@ fun CuendaDeCobroScreen(
                                 color = backgroundLight,
                                 modifier = modifier.fillMaxWidth(),
                                 text = servicioAgregado.descripcion_servicio,
-                                //textAlign = TextAlign.End
                             )
                         }
                     },
@@ -648,25 +456,15 @@ fun CuendaDeCobroScreen(
                     content = {
                         //Row {
                         Column {
-                            /*
-                            TextH3(
-                                modifier = modifier.fillMaxWidth(),
-                                //modifier = modifier,
-                                text = stringResource(id = R.string.total_servicio),
-                                //textAlign = TextAlign.Start
-                                textAlign = TextAlign.Right
-                            )
-                            */
+
                             TextH2(
-                                //color = backgroundLight,
-                                //color = MaterialTheme.colorScheme.primaryContainer,
+
                                 color = primaryContainerDark,
                                 modifier = modifier.fillMaxWidth(),
-                                //modifier = modifier.weight(1f),
-                                //modifier = modifier,
+
                                 text = "${mNumFormat.format( servicioAgregado.valor_total_del_servicio )}",
                                 textAlign = TextAlign.End
-                                //textAlign = TextAlign.Right
+
                             )
                         }
                     }
@@ -682,7 +480,6 @@ fun CuendaDeCobroScreen(
                 if(servicioViewModel.servicioDataStore.value.listaServicioEntity.isNotEmpty()){
                     Column {
                         TextH2(
-                            //color = backgroundLight,
                             textAlign = TextAlign.End,
                             modifier = modifier.fillMaxWidth(),
                             text = "${stringResource(id = R.string.total_servicio)}"
@@ -718,9 +515,7 @@ fun CuendaDeCobroScreen(
             /** Botonera de acciones finales como Exportar a PDF y Comportir */
             item {
 
-                //var uri: Uri?
-                //var uri = Uri.EMPTY
-                var uri = cuentaDeCobroViewModel.pdf_generado_uri.value
+                var uri = cotizacionViewModel.pdf_generado_uri.value
 
                 val requestPermissionLauncher = rememberLauncherForActivityResult(
                     ActivityResultContracts.RequestPermission()
@@ -728,23 +523,25 @@ fun CuendaDeCobroScreen(
 
                     llenarEntidadesYGenerarPDF(
                         context = context,
-                        fecha_expedicion_cuenta_de_cobro = fecha_expedicion_cuenta_de_cobro,
-                        hora_expedicion_cuenta_de_cobro = hora_expedicion_cuenta_de_cobro,
-                        cuentaDeCobroViewModel = cuentaDeCobroViewModel,
+                        fecha_expedicion_cotizacion = fecha_expedicion_cotizacion,
+                        hora_expedicion_cotizacion = hora_expedicion_cotizacion,
+                        imagenCorporativaViewModel = imagenCorporativaViewModel,
+                        cotizacionViewModel = cotizacionViewModel,
                         proveedorServiciosViewModel = proveedorServiciosViewModel,
                         clienteViewModel = clienteViewModel,
                         servicioViewModel = servicioViewModel
                     )
 
-                    uri = cuentaDeCobroViewModel.pdf_generado_uri.value
+                    uri = cotizacionViewModel.pdf_generado_uri.value
                 }
 
                 /** Esta condicion determina si el boton de exportar a PDF sea visible o no
                 valida que todos los campos de los fomularios sean informados para poder imprimie el PDF correctamente */
                 if (
-                    cuentaDeCobroViewModel.cuentaDeCobroDataState.value.cuenta_de_cobro_numero.value!! > 0
+                    cotizacionViewModel.cotizacionDataState.value.cotizacion_numero.value!! > 0
                     &&
-                    cuentaDeCobroViewModel.cuentaDeCobroDataState.value.imagen_corporativa.value!! != Uri.EMPTY
+                    //cotizacionViewModel.cotizacionDataState.value.imagen_corporativa.value!! != Uri.EMPTY
+                    imagenCorporativaViewModel.imagenCorporativaDataState.value.imagen_corporativa.value!! != Uri.EMPTY
                     &&
                     proveedorServiciosViewModel.proveedorServiciosDataState.value.proovedor_servicio_identificacion.value!! != ""
                     &&
@@ -778,43 +575,93 @@ fun CuendaDeCobroScreen(
                         , onClick = {
                             try {
                                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R){
-                                    requestPermissionLauncher.launch(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                    requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                                 } else {
 
                                     llenarEntidadesYGenerarPDF(
                                         context = context,
-                                        fecha_expedicion_cuenta_de_cobro = fecha_expedicion_cuenta_de_cobro,
-                                        hora_expedicion_cuenta_de_cobro = hora_expedicion_cuenta_de_cobro,
-                                        cuentaDeCobroViewModel = cuentaDeCobroViewModel,
+                                        fecha_expedicion_cotizacion = fecha_expedicion_cotizacion,
+                                        hora_expedicion_cotizacion = hora_expedicion_cotizacion,
+                                        imagenCorporativaViewModel = imagenCorporativaViewModel,
+                                        cotizacionViewModel = cotizacionViewModel,
                                         proveedorServiciosViewModel = proveedorServiciosViewModel,
                                         clienteViewModel = clienteViewModel,
                                         servicioViewModel = servicioViewModel
                                     )
 
-                                    uri = cuentaDeCobroViewModel.pdf_generado_uri.value
+                                    uri = cotizacionViewModel.pdf_generado_uri.value
 
                                 }
 
                                 onNavigateToDialogComparitPDF()
 
-                                cuentaDeCobroViewModel.incrementarContadorDocsEmitidos(mCuentaDeCobroContadorEntity)
-                                cuentaDeCobroViewModel.actualizarFechaHoraSistema()
+                                cotizacionViewModel.incrementarContadorDocsEmitidos(mCotizacionContadorEntity)
+                                cotizacionViewModel.actualizarFechaHoraSistema()
 
                                 Toast.makeText(context,"PDF creado exitosamente!", Toast.LENGTH_SHORT).show()
 
 
+                                /** despues de imprimir se limpia datos del cliente */
+                                runBlocking{
+                                    clienteViewModel.limpiarDatosCliente()
+                                }
+
+                                /** despues de imprimir se limpia datos de servicios agregados */
+                                servicioViewModel.limpiarListaDeServicios()
 
                             } catch (e:Exception){
 
-                                Toast.makeText(context,"Error! No se crear PDF", Toast.LENGTH_SHORT).show()
-                                Log.e("_xxx","e: ${e.message}")
+                                Toast.makeText(context,"Error! No se creó PDF", Toast.LENGTH_SHORT).show()
+                                Log.e("_xxx","e: ${e}")
+                                Log.e("_xxx","e.message: ${e.message}")
 
                             } catch (io_e:IOException){
 
-                                Toast.makeText(context,"Error! No se crear PDF", Toast.LENGTH_SHORT).show()
-                                Log.e("_xxx","io_: ${io_e.message}")
+                                Toast.makeText(context,"IOError! No se creó PDF", Toast.LENGTH_SHORT).show()
+                                Log.e("_xxx","io_e: ${io_e}")
+                                Log.e("_xxx","io_e.message: ${io_e.message}")
 
                             }
+
+                            /*
+                            /** P R U E B A  -  I N I */
+
+                            Log.d("_xxx","fecha_expedicion_cuenta_de_cobro: ${fecha_expedicion_cuenta_de_cobro}")
+                            Log.d("_xxx","hora_expedicion_cuenta_de_cobro: ${hora_expedicion_cuenta_de_cobro}")
+
+                            Log.d("_xxx","---------------------------------")
+
+                            Log.d("_xxx","imagenCorporativaViewModel: ${imagenCorporativaViewModel.imagenCorporativaDataState.value.imagen_corporativa.value}")
+
+                            Log.d("_xxx","---------------------------------")
+
+                            Log.d("_xxx","cuentaDeCobroViewModel: ${cuentaDeCobroViewModel.cuentaDeCobroDataState.value.cuenta_de_cobro_numero.value.toString()}")
+                            Log.d("_xxx","cuentaDeCobroViewModel: ${cuentaDeCobroViewModel.cuentaDeCobroDataState.value.cuenta_de_cobro_hora_expedicion.value}")
+                            Log.d("_xxx","cuentaDeCobroViewModel: ${cuentaDeCobroViewModel.cuentaDeCobroDataState.value.cuenta_de_cobro_fecha_expedicion.value}")
+
+                            Log.d("_xxx","---------------------------------")
+
+                            Log.d("_xxx","proveedorServiciosViewModel${proveedorServiciosViewModel.proveedorServiciosDataState.value.proovedor_servicio_nombre.value}")
+                            Log.d("_xxx","proveedorServiciosViewModel${proveedorServiciosViewModel.proveedorServiciosDataState.value.proovedor_servicio_identificacion.value}")
+                            Log.d("_xxx","proveedorServiciosViewModel${proveedorServiciosViewModel.proveedorServiciosDataState.value.proovedor_servicio_ubicacion.value}")
+                            Log.d("_xxx","proveedorServiciosViewModel${proveedorServiciosViewModel.proveedorServiciosDataState.value.proovedor_servicio_telefono.value}")
+                            Log.d("_xxx","proveedorServiciosViewModel${proveedorServiciosViewModel.proveedorServiciosDataState.value.proovedor_servicio_email.value}")
+
+                            Log.d("_xxx","---------------------------------")
+
+                            Log.d("_xxx","clienteViewModel: ${clienteViewModel.clienteDataState.value.cliente_nombre.value}")
+                            Log.d("_xxx","clienteViewModel: ${clienteViewModel.clienteDataState.value.cliente_identificacion.value}")
+                            Log.d("_xxx","clienteViewModel: ${clienteViewModel.clienteDataState.value.cliente_ubicacion.value}")
+                            Log.d("_xxx","clienteViewModel: ${clienteViewModel.clienteDataState.value.cliente_telefono.value}")
+                            Log.d("_xxx","clienteViewModel: ${clienteViewModel.clienteDataState.value.cliente_email.value}")
+
+                            Log.d("_xxx","---------------------------------")
+
+                            Log.d("_xxx","servicioViewModel: ${servicioViewModel.servicioDataStore.value.listaServicioEntity.toList()}")
+                            Log.d("_xxx","servicioViewModel: ${servicioViewModel.sumaTotalServicios()}")
+
+                            /** P R U E B A  -  F I N */
+                            */
                         }
                         , modifier = modifier
                     )
@@ -822,36 +669,31 @@ fun CuendaDeCobroScreen(
             }
         }
 
-
         /** F I N   S C A F O L D */
 
     }
 }
 
-
-
 private fun llenarEntidadesYGenerarPDF(
     context: Context,
-    fecha_expedicion_cuenta_de_cobro : String,
-    hora_expedicion_cuenta_de_cobro : String,
-    cuentaDeCobroViewModel : CuentaDeCobroViewModel,
+    fecha_expedicion_cotizacion : String,
+    hora_expedicion_cotizacion : String,
+    imagenCorporativaViewModel : ImagenCorporativaViewModel,
+    cotizacionViewModel : CotizacionViewModel,
     proveedorServiciosViewModel : ProveedorServiciosViewModel,
     clienteViewModel : ClienteViewModel,
     servicioViewModel : ServicioViewModel,
 ){
 
-    //Log.d("_xxx","imagen_corporativa_uri = ${ cuentaDeCobroViewModel.cuentaDeCobroDataState.value.imagen_corporativa.value }")
-    //Log.d("_xxx","imagen_corporativa_uri = ${ cuentaDeCobroViewModel.cuentaDeCobroDataState.value.imagen_corporativa.value?.lastPathSegment }")
-
-    cuentaDeCobroViewModel.generarPDF(
+    cotizacionViewModel.generarCotizacionPDF(
         context = context
-        ,mCuentaDeCobroEntity = CuentaDeCobroEntity(
-            numero_consecutivo = cuentaDeCobroViewModel.cuentaDeCobroDataState.value.cuenta_de_cobro_numero.value.toString() ?: "SIN DATOS",
-            //fecha_hora_generacion_reporte = cuentaDeCobroViewModel.cuentaDeCobroDataState.value.cuenta_de_cobro_fecha_expedicion.value!! ?: "SIN DATOS",
-            fecha_hora_generacion_reporte = "${ fecha_expedicion_cuenta_de_cobro }_${ hora_expedicion_cuenta_de_cobro }" ?: "SIN DATOS",
-            tipo_reporte = "Cuenta de Cobro Nº${ cuentaDeCobroViewModel.cuentaDeCobroDataState.value.cuenta_de_cobro_numero.value?: 0 }",
+        ,mCotizacionEntity = CotizacionEntity(
+            numero_consecutivo = cotizacionViewModel.cotizacionDataState.value.cotizacion_numero.value.toString() ?: "SIN DATOS",
+            fecha_hora_generacion_reporte = "${ fecha_expedicion_cotizacion }_${ hora_expedicion_cotizacion }" ?: "SIN DATOS",
+            tipo_reporte = "Cotizacion Nº${ cotizacionViewModel.cotizacionDataState.value.cotizacion_numero.value?: 0 }",
             total_suma_servicios = servicioViewModel.sumaTotalServicios()?: 0,
-            imagen_corporativa_uri = cuentaDeCobroViewModel.cuentaDeCobroDataState.value.imagen_corporativa.value!! ?: Uri.EMPTY,
+            //imagen_corporativa_uri = cotizacionViewModel.cotizacionDataState.value.imagen_corporativa.value!! ?: Uri.EMPTY,
+            imagen_corporativa_uri = imagenCorporativaViewModel.imagenCorporativaDataState.value.imagen_corporativa.value!! ?: Uri.EMPTY,
             mDatosPrestadorServicioEntity = ProveedorServiciosEntity(
                 identificacion = proveedorServiciosViewModel.proveedorServiciosDataState.value.proovedor_servicio_identificacion.value!! ?: "SIN DATOS",
                 nombre = proveedorServiciosViewModel.proveedorServiciosDataState.value.proovedor_servicio_nombre.value!! ?: "SIN DATOS",

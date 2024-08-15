@@ -2,12 +2,16 @@ package com.samirquiceno.factur
 
 import android.app.Application
 import com.samirquiceno.factur.daos.ClienteDao
+import com.samirquiceno.factur.daos.CotizacionDao
 import com.samirquiceno.factur.daos.CuentaDeCobroDao
+import com.samirquiceno.factur.daos.ImagenCorporativaDao
 import com.samirquiceno.factur.daos.ImagenDao
 import com.samirquiceno.factur.daos.ProveedorServicioDao
 import com.samirquiceno.factur.daos.ServicioDao
 import com.samirquiceno.factur.repositories.ClienteRepository
+import com.samirquiceno.factur.repositories.CotizacionRepository
 import com.samirquiceno.factur.repositories.CuentaDeCobroRepository
+import com.samirquiceno.factur.repositories.ImagenCorporativaRepository
 import com.samirquiceno.factur.repositories.ImagenRepository
 import com.samirquiceno.factur.repositories.ProveedorServiciosRepository
 import com.samirquiceno.factur.repositories.ServicioRepository
@@ -43,6 +47,15 @@ class mApplication: Application() {
         ServicioRepository(dao)
     }
 
+    /** mCotizacion *******************************************************************************/
+    val mCotizacionDao : CotizacionDao by lazy { CotizacionDao(context = this) }
+
+
+    val mCotizacionRepository: CotizacionRepository by lazy {
+        val dao = (applicationContext as mApplication).mCotizacionDao
+        CotizacionRepository(dao)
+    }
+
     /** Cuentas de Cobro **************************************************************************/
     val mCuentaDeCobroDao : CuentaDeCobroDao by lazy { CuentaDeCobroDao(context = this) }
 
@@ -53,12 +66,27 @@ class mApplication: Application() {
     }
 
     /** Cuentas de Cobro IMAGEN *******************************************************************/
-    val mImagenDao : ImagenDao by lazy { ImagenDao() }
 
+    /** ini-temporal
+     *
+     * con esta instacia se esta accediendo a la imagen desde el CuentaDeCobroViewModel
+     * sin embargo, este acceso se debe correjir y anular, por ahora esta temporal para no afectar la estabilidad de la app */
+    val mImagenDao : ImagenDao by lazy { ImagenDao() }
 
     val mImagenRepository: ImagenRepository by lazy {
         val dao = (applicationContext as mApplication).mImagenDao
         ImagenRepository(dao)
+    }
+
+    /** fin-temporal */
+
+
+    /** esta es la manera correcta para acceder a la imagen corporativa */
+    val mImagenCorporativaDao : ImagenCorporativaDao by lazy { ImagenCorporativaDao() }
+
+    val mImagenCorporativaRepository: ImagenCorporativaRepository by lazy {
+        val dao = (applicationContext as mApplication).mImagenCorporativaDao
+        ImagenCorporativaRepository(dao)
     }
 
 

@@ -55,6 +55,7 @@ import com.samirquiceno.factur.ui.components.TextH2
 import com.samirquiceno.factur.ui.components.TextH3
 import com.samirquiceno.factur.viewmodels.ClienteViewModel
 import com.samirquiceno.factur.viewmodels.CuentaDeCobroViewModel
+import com.samirquiceno.factur.viewmodels.ImagenCorporativaViewModel
 import com.samirquiceno.factur.viewmodels.ProveedorServiciosViewModel
 import com.samirquiceno.factur.viewmodels.ServicioViewModel
 
@@ -69,6 +70,7 @@ fun MainScreen(
     , onNavigateToDialogComparitPDF: () -> Unit
     //, onDismissRequest : ()-> Unit
     , modifier: Modifier
+    , imagenCorporativaViewModel: ImagenCorporativaViewModel
     , proveedorServiciosViewModel : ProveedorServiciosViewModel
     , clienteViewModel: ClienteViewModel
     , servicioViewModel: ServicioViewModel
@@ -81,6 +83,7 @@ fun MainScreen(
 
     var darkTheme: Boolean = isSystemInDarkTheme()
     var context = LocalContext.current
+
 
     var mProveedorServicioEntity = proveedorServiciosViewModel.read("").observeAsState()
     proveedorServiciosViewModel.updateProveedorServiciosDataState(mProveedorServicioEntity)
@@ -251,10 +254,10 @@ fun MainScreen(
                                 modifier = modifier
                                     .padding(7.dp)
                                     .size(100.dp)
-                                    /*
+
                                     .pointerInput(Unit) {
                                         detectTapGestures(
-                                            onTap = { navController.navigate(route = Screen.CuentaDeCobroScreenRoute.route_screen) },
+                                            onTap = { navController.navigate(route = Screen.CotizacionScreenRoute.route_screen) },
                                             /*
                                             onDoubleTap = {
                                                 runBlocking{
@@ -264,7 +267,7 @@ fun MainScreen(
                                             */
                                         )
                                     }
-                                    */
+
                                 ,painter = painterResource(id = R.drawable.outline_request_quote_24),
                                 contentDescription = ""
                             )

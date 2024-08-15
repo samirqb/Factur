@@ -16,14 +16,17 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.samirquiceno.factur.ui.screens.CargarImagenScreen
 import com.samirquiceno.factur.ui.screens.ClienteFormScreen
-import com.samirquiceno.factur.ui.screens.CuendaDeCobroScreen
+import com.samirquiceno.factur.ui.screens.CotizacionScreen
+import com.samirquiceno.factur.ui.screens.CuentaDeCobroScreen
 import com.samirquiceno.factur.ui.screens.MainScreen
 import com.samirquiceno.factur.ui.screens.ProveedorServiciosFormScreen
 import com.samirquiceno.factur.ui.screens.ServicioFormScreen
 import com.samirquiceno.factur.ui.screens.dialogs.CompartirPDFScreenDialog
 import com.samirquiceno.factur.ui.screens.dialogs.EditarContadorDocsEmitidosScreenDialog
 import com.samirquiceno.factur.viewmodels.ClienteViewModel
+import com.samirquiceno.factur.viewmodels.CotizacionViewModel
 import com.samirquiceno.factur.viewmodels.CuentaDeCobroViewModel
+import com.samirquiceno.factur.viewmodels.ImagenCorporativaViewModel
 import com.samirquiceno.factur.viewmodels.ProveedorServiciosViewModel
 import com.samirquiceno.factur.viewmodels.ServicioViewModel
 
@@ -45,8 +48,13 @@ fun MiNavHost(
         viewModel(factory = ServicioViewModel.Factory),
 
     mCuentaDeCobroViewModel: CuentaDeCobroViewModel =
-        viewModel(factory = CuentaDeCobroViewModel.Factory)
+        viewModel(factory = CuentaDeCobroViewModel.Factory),
 
+    mCotizacionViewModel : CotizacionViewModel =
+        viewModel(factory = CotizacionViewModel.Factory),
+
+    mImagenCorporativaViewModel: ImagenCorporativaViewModel =
+        viewModel(factory = ImagenCorporativaViewModel.Factory)
 
 ){
 
@@ -63,6 +71,7 @@ fun MiNavHost(
                 navController = navController
                 , onNavigateToDialog = { navController.navigate(route = Screen.EditarContadorDocsEmitidosFormScreenRoute.route_screen) }
                 , onNavigateToDialogComparitPDF = { navController.navigate(route = Screen.CompartirPDFScreenRoute.route_screen) }
+                , imagenCorporativaViewModel = mImagenCorporativaViewModel
                 , proveedorServiciosViewModel = mProveedorServiciosViewModel
                 , clienteViewModel = mClienteViewModel
                 , servicioViewModel = mServicioViewModel
@@ -71,16 +80,17 @@ fun MiNavHost(
             )
         }
 
-        dialog(
-            route = Screen.EditarContadorDocsEmitidosFormScreenRoute.route_screen
-        ){
-            EditarContadorDocsEmitidosScreenDialog( modifier = modifier, navController = navController,cuentaDeCobroViewModel = mCuentaDeCobroViewModel )
-        }
+
+
 
         dialog(
             route = Screen.CompartirPDFScreenRoute.route_screen
         ){
-            CompartirPDFScreenDialog( modifier = modifier, navController = navController,cuentaDeCobroViewModel = mCuentaDeCobroViewModel )
+            CompartirPDFScreenDialog(
+                modifier = modifier,
+                navController = navController,
+                cuentaDeCobroViewModel = mCuentaDeCobroViewModel
+            )
         }
 
 
@@ -101,7 +111,8 @@ fun MiNavHost(
 
             CargarImagenScreen(
                 navController = navController
-                , cuentaDeCobroViewModel= mCuentaDeCobroViewModel
+                //, cuentaDeCobroViewModel = mCuentaDeCobroViewModel
+                , imagenCorporativaViewModel = mImagenCorporativaViewModel
                 , modifier = modifier
             )
         }
@@ -118,6 +129,30 @@ fun MiNavHost(
             )
         }
 
+        /*
+        dialog(
+            route = Screen.EditarContadorDocsEmitidosFormScreenRoute.route_screen
+        ){
+            EditarContadorDocsEmitidosScreenDialog( modifier = modifier, navController = navController,cuentaDeCobroViewModel = mCuentaDeCobroViewModel )
+        }
+        */
+
+        dialog(
+            //route = Screen.EditarContadorDocsEmitidosFormScreenRoute.route_screen
+            route = Screen.EditarContadorDocsEmitidosFormScreenRoute.route_screen+"/{contador_id}",
+            arguments = listOf(navArgument("contador_id"){ type = NavType.StringType })
+        ){
+
+            var contador_id =  it.arguments?.getString("contador_id")
+
+            EditarContadorDocsEmitidosScreenDialog(
+                modifier = modifier,
+                navController = navController,
+                cuentaDeCobroViewModel = mCuentaDeCobroViewModel,
+                cotizacionViewModel = mCotizacionViewModel,
+                contador_id = contador_id
+            )
+        }
 
         composable(
             route = Screen.ServicioFormScreenRoute.route_screen+"/{servicio_id}"
@@ -142,10 +177,12 @@ fun MiNavHost(
 
             //var servicio_id =  it.arguments?.getString("servicio_id")
 
-            CuendaDeCobroScreen(
+            CuentaDeCobroScreen(
                 navController = navController
-                , onNavigateToDialog = { navController.navigate(route = Screen.EditarContadorDocsEmitidosFormScreenRoute.route_screen) }
+                //, onNavigateToDialog = { navController.navigate(route = Screen.EditarContadorDocsEmitidosFormScreenRoute.route_screen) }
+                , onNavigateToDialog = { navController.navigate(route = Screen.EditarContadorDocsEmitidosFormScreenRoute.route_screen+"/contador_cuenta_cobro") }
                 , onNavigateToDialogComparitPDF = { navController.navigate(route = Screen.CompartirPDFScreenRoute.route_screen) }
+                , imagenCorporativaViewModel = mImagenCorporativaViewModel
                 , proveedorServiciosViewModel = mProveedorServiciosViewModel
                 , clienteViewModel = mClienteViewModel
                 , servicioViewModel = mServicioViewModel
@@ -154,6 +191,23 @@ fun MiNavHost(
             )
         }
 
-        // Add more destinations similarly.
+        composable(
+            route = Screen.CotizacionScreenRoute.route_screen
+        ) {
+
+            CotizacionScreen(
+                navController = navController
+                //, onNavigateToDialog = { navController.navigate(route = Screen.EditarContadorDocsEmitidosFormScreenRoute.route_screen) }
+                , onNavigateToDialog = { navController.navigate(route = Screen.EditarContadorDocsEmitidosFormScreenRoute.route_screen+"/contador_cotizacion") }
+                , onNavigateToDialogComparitPDF = { navController.navigate(route = Screen.CompartirPDFScreenRoute.route_screen) }
+                , imagenCorporativaViewModel = mImagenCorporativaViewModel
+                , proveedorServiciosViewModel = mProveedorServiciosViewModel
+                , clienteViewModel = mClienteViewModel
+                , servicioViewModel = mServicioViewModel
+                , cotizacionViewModel = mCotizacionViewModel
+                , modifier = modifier
+            )
+        }
     }
 }
+

@@ -8,5 +8,6 @@ sealed class Screen(val route_screen : String) {
     object  EditarContadorDocsEmitidosFormScreenRoute: Screen(route_screen = "editar_contador_docs_emitidos_form_screen_route")
     object  CompartirPDFScreenRoute: Screen(route_screen = "compartir_pdf_dialog_screen_route")
     object  CuentaDeCobroScreenRoute: Screen(route_screen = "cuenta_de_cobro_screen_route")
+    object  CotizacionScreenRoute: Screen(route_screen = "cotizacion_screen_route")
     object  CargarImagenScreenRoute: Screen(route_screen = "cargar_imagen_screen_route")
 }

@@ -21,23 +21,35 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.samirquiceno.factur.R
+import com.samirquiceno.factur.models.ImagenCorporativaEntity
 import com.samirquiceno.factur.ui.components.CustomCardComponent
 import com.samirquiceno.factur.ui.components.CustomOutlineButton
 import com.samirquiceno.factur.ui.components.TextH2
 import com.samirquiceno.factur.ui.components.TextP1
-import com.samirquiceno.factur.viewmodels.CuentaDeCobroViewModel
+import com.samirquiceno.factur.viewmodels.ImagenCorporativaViewModel
 import kotlinx.coroutines.runBlocking
 import java.io.IOException
 
 @Composable
 fun CargarImagenIntent(navController:NavHostController,
-                       cuentaDeCobroViewModel: CuentaDeCobroViewModel,
+                       //cuentaDeCobroViewModel: CuentaDeCobroViewModel,
+                       imagenCorporativaViewModel: ImagenCorporativaViewModel,
                        modifier: Modifier = Modifier ) {
 
     val context = LocalContext.current
 
+    val NOMBRE_IMAGEN_CORPORATIVA = "imagen_corporativa"
+
     var _imagen_corp_uri_nueva by rememberSaveable { mutableStateOf<Uri?>(Uri.EMPTY) }
-    val imagen_corp_uri_actual by rememberSaveable { mutableStateOf<Uri?>(cuentaDeCobroViewModel.readImagen(context,"imagen_corporativa")) }
+    //val imagen_corp_uri_actual by rememberSaveable { mutableStateOf<Uri?>(cuentaDeCobroViewModel.readImagen(context,"imagen_corporativa")) }
+    val imagen_corp_uri_actual by rememberSaveable { mutableStateOf<Uri?>(imagenCorporativaViewModel
+        .read(
+            entity = ImagenCorporativaEntity(
+                context = context,
+                nombre = NOMBRE_IMAGEN_CORPORATIVA
+            )
+        )?.uri)
+    }
 
     var  pickerMedia = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia())  { uri:Uri? ->
 
@@ -51,8 +63,20 @@ fun CargarImagenIntent(navController:NavHostController,
             if (alto == 100 && ancho == 140) {
                 /** guardado de mi imagen */
                 runBlocking {
+
+                    /*
                     cuentaDeCobroViewModel
                         .insertarImagen(context = context, nombre_imagen = "imagen_corporativa",uri = uri!!)
+                    */
+
+                    imagenCorporativaViewModel.insert(
+                        entity = ImagenCorporativaEntity(
+                            context = context,
+                            nombre = NOMBRE_IMAGEN_CORPORATIVA,
+                            uri = uri
+                        )
+                    )
+
                     _imagen_corp_uri_nueva = uri
                 } ?: throw Exception("URI nula")
             } else {
@@ -86,6 +110,7 @@ fun CargarImagenIntent(navController:NavHostController,
 
                 if (imagen_corp_uri_actual != _imagen_corp_uri_nueva){
 
+                    /*
                     AsyncImage(
                         model = runBlocking {
                             cuentaDeCobroViewModel
@@ -94,14 +119,27 @@ fun CargarImagenIntent(navController:NavHostController,
                         contentScale = ContentScale.Crop,
                         modifier = modifier.fillMaxSize()
                     )
+                    */
 
                     _imagen_corp_uri_nueva = imagen_corp_uri_actual
 
                 } else {
 
+                    /*
                     AsyncImage(
                         model = runBlocking{
                             cuentaDeCobroViewModel.cuentaDeCobroDataState.value.imagen_corporativa.value
+                        },
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = modifier.fillMaxSize()
+                    )
+                    */
+
+                    AsyncImage(
+                        model = runBlocking{
+                            //cuentaDeCobroViewModel.cuentaDeCobroDataState.value.imagen_corporativa.value
+                            imagenCorporativaViewModel.imagenCorporativaDataState.value.imagen_corporativa.value
                         },
                         contentDescription = null,
                         contentScale = ContentScale.Crop,

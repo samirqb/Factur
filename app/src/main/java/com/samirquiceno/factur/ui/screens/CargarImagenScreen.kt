@@ -41,11 +41,12 @@ import com.example.compose.onPrimaryLight
 import com.example.compose.primaryContainerDark
 import com.example.compose.primaryContainerLight
 import com.samirquiceno.factur.R
+import com.samirquiceno.factur.models.ImagenCorporativaEntity
 import com.samirquiceno.factur.ui.components.CustomIconButton2
 import com.samirquiceno.factur.ui.components.CustomOutlineButton
 import com.samirquiceno.factur.ui.components.TextH2
 import com.samirquiceno.factur.ui.components.TextH3
-import com.samirquiceno.factur.viewmodels.CuentaDeCobroViewModel
+import com.samirquiceno.factur.viewmodels.ImagenCorporativaViewModel
 import kotlinx.coroutines.runBlocking
 import java.io.IOException
 
@@ -53,15 +54,30 @@ import java.io.IOException
 @Composable
 fun CargarImagenScreen(
     navController : NavHostController,
-    cuentaDeCobroViewModel : CuentaDeCobroViewModel,
+    //cuentaDeCobroViewModel : CuentaDeCobroViewModel,
+    imagenCorporativaViewModel: ImagenCorporativaViewModel,
     modifier : Modifier = Modifier) {
 
     val context = LocalContext.current
 
-    var _imagen_corp_uri_nueva by rememberSaveable { mutableStateOf<Uri?>(Uri.EMPTY) }
-    val imagen_corp_uri_actual by rememberSaveable { mutableStateOf<Uri?>(cuentaDeCobroViewModel.readImagen(context,"imagen_corporativa")) }
+    val NOMBRE_IMAGEN_CORPORATIVA = "imagen_corporativa"
 
-    var  pickerMedia = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia())  { uri: Uri? ->
+    var _imagen_corp_uri_nueva by rememberSaveable { mutableStateOf<Uri?>(Uri.EMPTY) }
+    //val imagen_corp_uri_actual_xxx by rememberSaveable { mutableStateOf<Uri?>(cuentaDeCobroViewModel.readImagen(context,"imagen_corporativa")) }
+    val imagen_corp_uri_actual by rememberSaveable { mutableStateOf<Uri?>(
+        imagenCorporativaViewModel.read(
+            entity = ImagenCorporativaEntity(
+                context = context,
+                nombre = NOMBRE_IMAGEN_CORPORATIVA
+            )
+        )?.uri)
+    }
+
+
+
+    var  pickerMedia = rememberLauncherForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ){ uri: Uri? ->
 
         try {
 
@@ -72,11 +88,24 @@ fun CargarImagenScreen(
 
             if (alto == 100 && ancho == 140) {
                 /** guardado de mi imagen */
-                /** guardado de mi imagen */
                 runBlocking {
+
+                    /*
                     cuentaDeCobroViewModel
                         .insertarImagen(context = context, nombre_imagen = "imagen_corporativa",uri = uri!!)
                     _imagen_corp_uri_nueva = uri
+                    */
+
+                    imagenCorporativaViewModel.insert(
+                        entity = ImagenCorporativaEntity(
+                            context = context,
+                            nombre = NOMBRE_IMAGEN_CORPORATIVA,
+                            uri = uri
+                        )
+                    )
+
+
+
                 } ?: throw Exception("URI nula")
             } else {
                 Toast.makeText(context,"La imagen seleccionada no tiene las dimensiones requeridas",
@@ -148,6 +177,7 @@ fun CargarImagenScreen(
             verticalArrangement = Arrangement.spacedBy(77.dp, Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = modifier.padding(innerPadding).fillMaxSize()) {
+
             /*
             item {
                 TextH2 (
@@ -186,18 +216,20 @@ fun CargarImagenScreen(
                 */
 
                 if (imagen_corp_uri_actual != _imagen_corp_uri_nueva){
+
                     _imagen_corp_uri_nueva = imagen_corp_uri_actual
+
                 }
 
                 AsyncImage(
                     model = runBlocking{
-                        cuentaDeCobroViewModel.cuentaDeCobroDataState.value.imagen_corporativa.value
+                        //cuentaDeCobroViewModel.cuentaDeCobroDataState.value.imagen_corporativa.value
+                        imagenCorporativaViewModel.imagenCorporativaDataState.value.imagen_corporativa.value
                     },
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = modifier.fillMaxSize()
                 )
-
 
                 TextH3(
                     modifier = modifier,

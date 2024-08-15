@@ -1,5 +1,6 @@
 package com.samirquiceno.factur.viewmodels
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -32,7 +33,7 @@ class ServicioViewModel(
 
     suspend fun update(index:Int,entity: ServicioEntity) {
         //_repository.update(entity)
-        _servicioDataStore.update {currentState ->
+        _servicioDataStore.update { currentState ->
             var lista = currentState.listaServicioEntity
             lista[index] = entity
             currentState.copy(
@@ -60,6 +61,16 @@ class ServicioViewModel(
     fun eliminar(indice: Int){
         _servicioDataStore.update {currentState ->
             currentState.listaServicioEntity.removeAt(indice)
+            currentState.copy(
+                listaServicioEntity = _servicioDataStore.value.listaServicioEntity
+            )
+        }
+    }
+
+    fun limpiarListaDeServicios(){
+        _servicioDataStore.update {currentState ->
+            //currentState.listaServicioEntity.removeAt(indice)
+            currentState.listaServicioEntity = mutableStateListOf()
             currentState.copy(
                 listaServicioEntity = _servicioDataStore.value.listaServicioEntity
             )

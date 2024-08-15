@@ -14,14 +14,14 @@ import android.os.Environment
 import android.util.Log
 import androidx.core.net.toUri
 import com.samirquiceno.factur.R
-import com.samirquiceno.factur.models.CuentaDeCobroEntity
+import com.samirquiceno.factur.models.CotizacionEntity
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
-class GenerarPdf(
+class GenerarCotizacionPDF(
     private var context: Context,
-    private var mCuentaDeCobroEntity: CuentaDeCobroEntity,
+    private var mCotizacionEntity: CotizacionEntity,
 ) {
 
     var pdf_generado_uri: Uri = Uri.EMPTY
@@ -44,13 +44,13 @@ class GenerarPdf(
         /** IMAGEN CORPORATIVA PARA REPORTE **/
         var set_drawable = Paint()
         //var imagen_png: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.cctq_logo_pdf)
-        //var imagen_png: Bitmap = BitmapFactory.decodeFile(mCuentaDeCobroEntity.imagen_corporativa_uri.path)
+        //var imagen_png: Bitmap = BitmapFactory.decodeFile(mCotizacionEntity.imagen_corporativa_uri.path)
         /** si la uri de la imagen a imprimir es null o vacia, el sistema toma una imagen predeterminada
          * del sistema (drawable/factur_arte_isologotipo_140px_x_100px) y la imprime como Imagen corporativa  */
         /*
-        var imagen_png: Bitmap = if ( mCuentaDeCobroEntity.imagen_corporativa_uri.path.isNullOrEmpty()
-            && mCuentaDeCobroEntity.imagen_corporativa_uri.path.isNullOrBlank()){
-            BitmapFactory.decodeFile(mCuentaDeCobroEntity.imagen_corporativa_uri.path)
+        var imagen_png: Bitmap = if ( mCotizacionEntity.imagen_corporativa_uri.path.isNullOrEmpty()
+            && mCotizacionEntity.imagen_corporativa_uri.path.isNullOrBlank()){
+            BitmapFactory.decodeFile(mCotizacionEntity.imagen_corporativa_uri.path)
         } else{
             BitmapFactory.decodeResource(context.resources, R.drawable.factur_arte_isologotipo_140px_x_100px)
         }
@@ -60,8 +60,8 @@ class GenerarPdf(
         var scaledbmp: Bitmap
         var escala = 3
 
-        if( mCuentaDeCobroEntity.imagen_corporativa_uri.lastPathSegment == "imagen_corporativa"){
-            imagen_png = BitmapFactory.decodeFile(mCuentaDeCobroEntity.imagen_corporativa_uri.path)
+        if( mCotizacionEntity.imagen_corporativa_uri.lastPathSegment == "imagen_corporativa"){
+            imagen_png = BitmapFactory.decodeFile(mCotizacionEntity.imagen_corporativa_uri.path)
             scaledbmp = Bitmap.createScaledBitmap(imagen_png, imagen_png.width, imagen_png.height, false)
             //contentPag.drawBitmap(scaledbmp,53F,53F,set_drawable)
         } else{
@@ -88,14 +88,14 @@ class GenerarPdf(
         //set_string.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD))
         set_string.setTypeface(
             Typeface.create(
-            Typeface.MONOSPACE,
-            Typeface.BOLD)
+                Typeface.MONOSPACE,
+                Typeface.BOLD)
         )
         set_string.setColor(Color.BLACK)
         set_string.textAlign = Paint.Align.RIGHT
 
         /** DATOS DEL REPORTE **/
-        var tipo_reporte = mCuentaDeCobroEntity.tipo_reporte
+        var tipo_reporte = mCotizacionEntity.tipo_reporte
         var eje_x = 530F
         var eje_y = 60F
         contentPag.drawText(tipo_reporte,eje_x,eje_y,set_string)
@@ -104,33 +104,33 @@ class GenerarPdf(
         set_string.setTextSize(12F)
         set_string.setTypeface(
             Typeface.create(
-            Typeface.MONOSPACE,
-            Typeface.NORMAL)
+                Typeface.MONOSPACE,
+                Typeface.NORMAL)
         )
 
 
         /** DATOS PRESTADOR DEL SERVICIO **/
-        /** UBICACION PRESTADOR DE SERVICIO **/
-        var nombre_ps = mCuentaDeCobroEntity.mDatosPrestadorServicioEntity.nombre
+        var nombre_ps = mCotizacionEntity.mDatosPrestadorServicioEntity.nombre
         eje_y = 85F
         contentPag.drawText(nombre_ps,eje_x,eje_y,set_string)
 
-        var ubicacion_ps = mCuentaDeCobroEntity.mDatosPrestadorServicioEntity.ubicacion
+        /** UBICACION PRESTADOR DE SERVICIO **/
+        var ubicacion_ps = mCotizacionEntity.mDatosPrestadorServicioEntity.ubicacion
         eje_y = 100F
         contentPag.drawText(ubicacion_ps,eje_x,eje_y,set_string)
 
         /** TELEFONO PRESTADOR DE SERVICIO **/
-        var telefono_ps = mCuentaDeCobroEntity.mDatosPrestadorServicioEntity.telefono
+        var telefono_ps = mCotizacionEntity.mDatosPrestadorServicioEntity.telefono
         eje_y = 115F
         contentPag.drawText(telefono_ps,eje_x,eje_y,set_string)
 
         /** EMAIL PRESTADOR DE SERVICIO **/
-        var email_ps = mCuentaDeCobroEntity.mDatosPrestadorServicioEntity.email
+        var email_ps = mCotizacionEntity.mDatosPrestadorServicioEntity.email
         eje_y = 130F
         contentPag.drawText(email_ps,eje_x,eje_y,set_string)
 
         /** IDENTIFICACION PRESTADOR DE SERVICIO **/
-        var identificacion_ps = mCuentaDeCobroEntity.mDatosPrestadorServicioEntity.identificacion
+        var identificacion_ps = mCotizacionEntity.mDatosPrestadorServicioEntity.identificacion
         eje_y = 145F
         contentPag.drawText(identificacion_ps,eje_x,eje_y,set_string)
 
@@ -150,13 +150,13 @@ class GenerarPdf(
         //set_string.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD))
         set_string.setTypeface(
             Typeface.create(
-            Typeface.MONOSPACE,
-            Typeface.BOLD)
+                Typeface.MONOSPACE,
+                Typeface.BOLD)
         )
 
         /** LABELS DATOS RECEPTOR DEL SERVICIO **/
-        /** LABEL - FECHA Y HORA DEL REPORTE **/
-        var titulo_datos_cliente = "Datos del Clente "
+
+        var titulo_datos_cliente = "Datos del Cliente "
         eje_x = 43F
         eje_y = 200F
         contentPag.drawText(titulo_datos_cliente,eje_x,eje_y,set_string)
@@ -164,10 +164,11 @@ class GenerarPdf(
         set_string.setTextSize(12F)
         set_string.setTypeface(
             Typeface.create(
-            Typeface.MONOSPACE,
-            Typeface.NORMAL)
+                Typeface.MONOSPACE,
+                Typeface.NORMAL)
         )
 
+        /** LABEL - FECHA Y HORA DEL REPORTE **/
         var label_fecha_hora_reporte = "Fecha y hora: "
         eje_x = 43F
         eje_y = 220F
@@ -206,38 +207,38 @@ class GenerarPdf(
 
         /** DATOS RECEPTOR DEL SERVICIO **/
         //FECHA Y HORA REPORTE
-        var fecha_hora_reporte = mCuentaDeCobroEntity.fecha_hora_generacion_reporte
+        var fecha_hora_reporte = mCotizacionEntity.fecha_hora_generacion_reporte
         eje_x = 240F
         eje_y = 220F
         contentPag.drawText(fecha_hora_reporte,eje_x,eje_y,set_string)
 
         // NOMBRE RECEPTOR SERVICIO
-        var nombre_rs = mCuentaDeCobroEntity.mDatosReceptorServicioEntity.nombre
+        var nombre_rs = mCotizacionEntity.mDatosReceptorServicioEntity.nombre
         eje_y = 235F
         contentPag.drawText(nombre_rs,eje_x,eje_y,set_string)
 
         // IDENTIFICACION RECEPTOR DE SERVICIO
-        var identificacion_rs = mCuentaDeCobroEntity.mDatosReceptorServicioEntity.identificacion
+        var identificacion_rs = mCotizacionEntity.mDatosReceptorServicioEntity.identificacion
         eje_y = 250F
         contentPag.drawText(identificacion_rs,eje_x,eje_y,set_string)
 
         // MARCA VEHICULO RECEPTOR DE SERVICIO
-        var vehiculo_marca_rs = mCuentaDeCobroEntity.mDatosReceptorServicioEntity.telefono
+        var vehiculo_marca_rs = mCotizacionEntity.mDatosReceptorServicioEntity.telefono
         eje_y = 265F
         contentPag.drawText(vehiculo_marca_rs,eje_x,eje_y,set_string)
 
         // MODELO VEHICULO RECEPTOR DE SERVICIO
-        var vehiculo_modelo_rs = mCuentaDeCobroEntity.mDatosReceptorServicioEntity.ubicacion
+        var vehiculo_modelo_rs = mCotizacionEntity.mDatosReceptorServicioEntity.ubicacion
         eje_y = 280F
         contentPag.drawText(vehiculo_modelo_rs,eje_x,eje_y,set_string)
 
         // MATRICULA VEHICULO RECEPTOR DE SERVICIO
-        var vehiculo_matricula_rs = mCuentaDeCobroEntity.mDatosReceptorServicioEntity.email
+        var vehiculo_matricula_rs = mCotizacionEntity.mDatosReceptorServicioEntity.email
         eje_y = 295F
         contentPag.drawText(vehiculo_matricula_rs,eje_x,eje_y,set_string)
 
         // VALOR TOTAL A PAGAR
-        var total_suma_servicios_rs1 = mNumFormat.format(mCuentaDeCobroEntity.total_suma_servicios)
+        var total_suma_servicios_rs1 = mNumFormat.format(mCotizacionEntity.total_suma_servicios)
         eje_y = 310F
         contentPag.drawText(total_suma_servicios_rs1,eje_x,eje_y,set_string)
 
@@ -250,8 +251,8 @@ class GenerarPdf(
         set_string.setTextSize(15F)
         set_string.setTypeface(
             Typeface.create(
-            Typeface.MONOSPACE,
-            Typeface.BOLD)
+                Typeface.MONOSPACE,
+                Typeface.BOLD)
         )
 
 
@@ -293,19 +294,19 @@ class GenerarPdf(
         set_string.setTextSize(12F)
         set_string.setTypeface(
             Typeface.create(
-            Typeface.MONOSPACE,
-            Typeface.NORMAL
-        ))
+                Typeface.MONOSPACE,
+                Typeface.NORMAL
+            ))
 
 
         eje_y = 390F
         set_string.setTypeface(
             Typeface.create(
-            Typeface.MONOSPACE,
-            Typeface.NORMAL)
+                Typeface.MONOSPACE,
+                Typeface.NORMAL)
         )
 
-        mCuentaDeCobroEntity.mServicioEntity.forEach {
+        mCotizacionEntity.mServicioEntity.forEach {
 
             // CANTIDAD UNIDADES SERVICIO
             var cantidad_rs = it?.cantidad.toString()
@@ -345,20 +346,20 @@ class GenerarPdf(
         set_string.setTextSize(15F)
         set_string.setTypeface(
             Typeface.create(
-            Typeface.MONOSPACE,
-            Typeface.BOLD)
+                Typeface.MONOSPACE,
+                Typeface.BOLD)
         )
 
 
         // LABEL - TOTAL A PAGAR
         var label_total_pager_rs = "TOTAL A PAGAR: "
-        eje_x = 440F
+        eje_x = 400F
         eje_y += 10
         set_string.textAlign = Paint.Align.RIGHT
         contentPag.drawText( label_total_pager_rs,eje_x,eje_y,set_string )
 
         // TOTAL A PAGAR
-        var total_suma_servicios_rs = mNumFormat.format(mCuentaDeCobroEntity.total_suma_servicios)
+        var total_suma_servicios_rs = mNumFormat.format(mCotizacionEntity.total_suma_servicios)
         eje_x = 570F
         set_string.textAlign = Paint.Align.RIGHT
         contentPag.drawText( total_suma_servicios_rs,eje_x,eje_y,set_string )
@@ -370,11 +371,12 @@ class GenerarPdf(
         set_string.setTextSize(9F)
         set_string.setTypeface(
             Typeface.create(
-            Typeface.MONOSPACE,
-            Typeface.BOLD_ITALIC
-        ))
+                Typeface.MONOSPACE,
+                Typeface.BOLD_ITALIC
+            ))
 
 
+        /*
         var disclaimer_txt_l1 = "Para efectos de retención en la fuente solicito se me aplique la tabla de retención establecida"
         eje_x = 45F
         eje_y = 745F
@@ -384,9 +386,12 @@ class GenerarPdf(
         var disclaimer_txt_l2 = "en el artículo 383 del E.T, para lo cual certifico bajo la gravedad de juramento que no voy a"
         eje_y = 760F
         contentPag.drawText( disclaimer_txt_l2,eje_x,eje_y,set_string )
+        */
 
-        var disclaimer_txt_l3 = "vincular costos al ingreso generado por esta prestación de servicio."
+        var disclaimer_txt_l3 = "*Este documento NO representa una compra o factura de compra."
+        eje_x = 45F
         eje_y = 775F
+        set_string.textAlign = Paint.Align.LEFT
         contentPag.drawText( disclaimer_txt_l3,eje_x,eje_y,set_string )
 
         /************ final disclainer ***************/
@@ -395,7 +400,7 @@ class GenerarPdf(
         document.finishPage(page)
 
         var downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
-        var nombre_archivo_raw = "CC${mCuentaDeCobroEntity.numero_consecutivo}_${mCuentaDeCobroEntity.fecha_hora_generacion_reporte}.pdf"
+        var nombre_archivo_raw = "CT${mCotizacionEntity.numero_consecutivo}_${mCotizacionEntity.fecha_hora_generacion_reporte}.pdf"
         var nombre_archivo_pdf = nombre_archivo_raw.replace("[-: ]".toRegex(),"")
         val file: File = File(downloadDir, nombre_archivo_pdf)
 

@@ -439,9 +439,11 @@ fun FacturaScreen(
                         Row {
                             TextH3(
                                 color = backgroundLight,
-                                modifier = modifier.fillMaxWidth(.03f),
+                                //modifier = modifier.fillMaxWidth(.03f),
+                                modifier = modifier,
                                 text = servicioAgregado.cantidad.toString(),
-                                textAlign = TextAlign.End
+                                //textAlign = TextAlign.End
+                                textAlign = TextAlign.Start
                             )
 
                             TextH3(

@@ -440,9 +440,11 @@ fun CotizacionScreen(
                         Row {
                             TextH3(
                                 color = backgroundLight,
-                                modifier = modifier.fillMaxWidth(.03f),
+                                //modifier = modifier.fillMaxWidth(.3f),
+                                modifier = modifier,
                                 text = servicioAgregado.cantidad.toString(),
-                                textAlign = TextAlign.End
+                                //textAlign = TextAlign.End
+                                textAlign = TextAlign.Start
                             )
 
                             TextH3(
@@ -478,6 +480,7 @@ fun CotizacionScreen(
                 Spacer(modifier = modifier)
 
                 if(servicioViewModel.servicioDataStore.value.listaServicioEntity.isNotEmpty()){
+
                     Column {
                         TextH2(
                             textAlign = TextAlign.End,

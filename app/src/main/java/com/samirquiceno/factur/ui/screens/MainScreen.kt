@@ -89,7 +89,6 @@ fun MainScreen(
     proveedorServiciosViewModel.updateProveedorServiciosDataState(mProveedorServicioEntity)
 
 
-
     var proveedor_serv_identificacion = mProveedorServicioEntity.value?.identificacion
     var proveedor_serv_nombre         = mProveedorServicioEntity.value?.nombre
     var proveedor_serv_telefono       = mProveedorServicioEntity.value?.telefono
@@ -314,7 +313,22 @@ fun MainScreen(
                         content = {
                             Icon(modifier = modifier
                                 .padding(11.dp)
-                                .size(100.dp), painter = painterResource(id = R.drawable.outline_receipt_24), contentDescription = "" )
+                                .size(100.dp)
+                                .pointerInput(Unit) {
+                                    detectTapGestures(
+                                        onTap = { navController.navigate(route = Screen.FacturaScreenRoute.route_screen) },
+                                        /*
+                                        onDoubleTap = {
+                                            runBlocking{
+                                                clienteViewModel.limpiarDatosCliente()
+                                            }
+                                        }
+                                        */
+                                    )
+                                },
+                                painter = painterResource(id = R.drawable.outline_receipt_24),
+                                contentDescription = "" )
+
                         }
                     )
                     //Icon(modifier = modifier.size(100.dp), painter = painterResource(id = R.drawable.outline_receipt_24), contentDescription = "" )

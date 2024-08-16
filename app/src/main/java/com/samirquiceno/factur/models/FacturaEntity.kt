@@ -3,7 +3,7 @@ package com.samirquiceno.factur.models
 import android.net.Uri
 import com.samirquiceno.factur.models.Interfaces.IBaseEntity
 
-class CotizacionEntity(
+data class FacturaEntity(
     val numero_consecutivo: String,
     val fecha_hora_generacion_reporte: String,
     val tipo_reporte: String,

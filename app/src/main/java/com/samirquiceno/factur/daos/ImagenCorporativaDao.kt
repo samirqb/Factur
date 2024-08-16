@@ -1,7 +1,6 @@
 package com.samirquiceno.factur.daos
 
 import android.net.Uri
-import android.util.Log
 import androidx.datastore.core.IOException
 import com.samirquiceno.factur.daos.interfaces.IBaseDao
 import com.samirquiceno.factur.models.ImagenCorporativaEntity
@@ -12,17 +11,15 @@ import java.io.FileOutputStream
 class ImagenCorporativaDao:IBaseDao<ImagenCorporativaEntity> {
     override suspend fun insert(entity: ImagenCorporativaEntity) {
 
-        val context       = entity.context
+        val context = entity.context
         val nombre_imagen = entity.nombre
-        val uri           = entity.uri!!
-
-        Log.d("_xxx","ImagenCorporativaDao.insert -> context: ${context}")
-        Log.d("_xxx","ImagenCorporativaDao.insert -> nombre_imagen: ${nombre_imagen}")
-        Log.d("_xxx","ImagenCorporativaDao.insert -> uri: ${uri}")
+        val uri = entity.uri!!
 
         val imagenBytes = context.contentResolver.openInputStream(uri)?.readBytes()!!
 
-        val directorio = context.filesDir // Obtiene el directorio de archivos internos
+        /** Obtiene el directorio de archivos internos de la app donde guardara la imagen */
+        val directorio = context.filesDir
+
         val archivoImagen = File(directorio, nombre_imagen)
 
         try {
@@ -61,21 +58,22 @@ class ImagenCorporativaDao:IBaseDao<ImagenCorporativaEntity> {
         val context = entity.context
         val nombre_imagen = entity.nombre
 
-        Log.d("_xxx","ImagenCorporativaDao.read -> context: ${context}")
-        Log.d("_xxx","ImagenCorporativaDao.read -> nombre_imagen: ${nombre_imagen}")
-
         val file = File(context.filesDir, nombre_imagen)
 
         val uri : Uri
 
         if (file.exists()) {
-            Log.d("_xxx","ImagenCorporaticaDao.read -> if")
+            /** este camino (IF) es tomado SIEMPRE, despues que el usuario cargue una
+             *  imagen por primera vez */
+
             uri = Uri.fromFile(file)
+
         } else {
-            Log.d("_xxx","ImagenCorporaticaDao.read -> else")
-            //uri = Uri.parse("android.resource://com.samirquiceno.factur/drawable/imagen_corporativa")
-            //BitmapFactory.decodeResource(context.resources, R.drawable.factur_arte_isologotipo_140px_x_100px)
+            /** este camino (ELSE) solo es tomado cuando por primera vez se inicia la app, pues no existe
+              * una imagen cargada por el usuario y por enede se toma una por defecto de resources */
+
             uri = Uri.parse("android.resource://com.samirquiceno.factur/drawable/factur_arte_isologotipo_140px_x_100px")
+
         }
 
         return ImagenCorporativaEntity(

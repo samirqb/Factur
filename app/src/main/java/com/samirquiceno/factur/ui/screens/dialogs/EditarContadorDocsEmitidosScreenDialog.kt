@@ -13,6 +13,7 @@ import androidx.navigation.NavHostController
 import com.samirquiceno.factur.R
 import com.samirquiceno.factur.models.CotizacionContadorEntity
 import com.samirquiceno.factur.models.CuentaDeCobroContadorEntity
+import com.samirquiceno.factur.models.FacturaContadorEntity
 import com.samirquiceno.factur.tools.RestriccionesDeCamposDeEntradas
 import com.samirquiceno.factur.ui.components.BotonesIconosDeAccion
 import com.samirquiceno.factur.ui.components.CustomCardSmallComponent
@@ -21,6 +22,7 @@ import com.samirquiceno.factur.ui.components.TextH2
 import com.samirquiceno.factur.ui.components.TextP1
 import com.samirquiceno.factur.viewmodels.CotizacionViewModel
 import com.samirquiceno.factur.viewmodels.CuentaDeCobroViewModel
+import com.samirquiceno.factur.viewmodels.FacturaViewModel
 import kotlinx.coroutines.runBlocking
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -30,7 +32,7 @@ fun EditarContadorDocsEmitidosScreenDialog(
     //onDismissRequest: ()->Unit,
     cotizacionViewModel: CotizacionViewModel,
     cuentaDeCobroViewModel: CuentaDeCobroViewModel,
-    //facturaViewModel: FacturaViewModel,
+    facturaViewModel: FacturaViewModel,
     modifier: Modifier = Modifier,
     contador_id :String?
 ) {
@@ -141,7 +143,6 @@ fun EditarContadorDocsEmitidosScreenDialog(
                                     )
                                 }
 
-                                /* -> H A B I L I T A D O   P R O X I M A M E N T E
                                 if (contador_id == "contador_factura" ){
                                     facturaViewModel.insert(
                                         entity = FacturaContadorEntity(
@@ -149,6 +150,7 @@ fun EditarContadorDocsEmitidosScreenDialog(
                                         )
                                     )
                                 }
+                                /* -> H A B I L I T A D O   P R O X I M A M E N T E
                                 */
 
                             }

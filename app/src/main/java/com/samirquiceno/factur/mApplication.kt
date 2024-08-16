@@ -4,6 +4,7 @@ import android.app.Application
 import com.samirquiceno.factur.daos.ClienteDao
 import com.samirquiceno.factur.daos.CotizacionDao
 import com.samirquiceno.factur.daos.CuentaDeCobroDao
+import com.samirquiceno.factur.daos.FacturaDao
 import com.samirquiceno.factur.daos.ImagenCorporativaDao
 import com.samirquiceno.factur.daos.ImagenDao
 import com.samirquiceno.factur.daos.ProveedorServicioDao
@@ -11,6 +12,7 @@ import com.samirquiceno.factur.daos.ServicioDao
 import com.samirquiceno.factur.repositories.ClienteRepository
 import com.samirquiceno.factur.repositories.CotizacionRepository
 import com.samirquiceno.factur.repositories.CuentaDeCobroRepository
+import com.samirquiceno.factur.repositories.FacturaRepository
 import com.samirquiceno.factur.repositories.ImagenCorporativaRepository
 import com.samirquiceno.factur.repositories.ImagenRepository
 import com.samirquiceno.factur.repositories.ProveedorServiciosRepository
@@ -64,6 +66,17 @@ class mApplication: Application() {
         val dao = (applicationContext as mApplication).mCuentaDeCobroDao
         CuentaDeCobroRepository(dao)
     }
+
+    /** Factura de Cobro **************************************************************************/
+    val mFacturaDao : FacturaDao by lazy { FacturaDao(context = this) }
+
+
+    val mFacturaRepository: FacturaRepository by lazy {
+        val dao = (applicationContext as mApplication).mFacturaDao
+        FacturaRepository(dao)
+    }
+
+
 
     /** Cuentas de Cobro IMAGEN *******************************************************************/
 

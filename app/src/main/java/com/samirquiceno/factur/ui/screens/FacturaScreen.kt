@@ -49,7 +49,7 @@ import com.example.compose.primaryContainerDark
 import com.example.compose.primaryContainerLight
 import com.samirquiceno.factur.R
 import com.samirquiceno.factur.models.ClienteEntity
-import com.samirquiceno.factur.models.CotizacionEntity
+import com.samirquiceno.factur.models.FacturaEntity
 import com.samirquiceno.factur.models.ProveedorServiciosEntity
 import com.samirquiceno.factur.models.ServicioEntity
 import com.samirquiceno.factur.nav.Screen
@@ -61,7 +61,7 @@ import com.samirquiceno.factur.ui.components.CustomOutlineButton
 import com.samirquiceno.factur.ui.components.TextH2
 import com.samirquiceno.factur.ui.components.TextH3
 import com.samirquiceno.factur.viewmodels.ClienteViewModel
-import com.samirquiceno.factur.viewmodels.CotizacionViewModel
+import com.samirquiceno.factur.viewmodels.FacturaViewModel
 import com.samirquiceno.factur.viewmodels.ImagenCorporativaViewModel
 import com.samirquiceno.factur.viewmodels.ProveedorServiciosViewModel
 import com.samirquiceno.factur.viewmodels.ServicioViewModel
@@ -70,7 +70,7 @@ import kotlinx.coroutines.runBlocking
 @SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CotizacionScreen(
+fun FacturaScreen(
     navController: NavHostController
     , onNavigateToDialog: () -> Unit
     , onNavigateToDialogComparitPDF: () -> Unit
@@ -80,27 +80,27 @@ fun CotizacionScreen(
     , proveedorServiciosViewModel : ProveedorServiciosViewModel
     , clienteViewModel: ClienteViewModel
     , servicioViewModel: ServicioViewModel
-    , cotizacionViewModel: CotizacionViewModel
+    , facturaViewModel: FacturaViewModel
 ){
 
     val context = LocalContext.current
 
     var mNumFormat = NumberFormat.getCurrencyInstance()
 
-    var fecha_expedicion_cotizacion = cotizacionViewModel
-        .cotizacionDataState
+    var fecha_expedicion_factura = facturaViewModel
+        .facturaDataState
         .value
-        .cotizacion_fecha_expedicion
+        .factura_fecha_expedicion
         .value.toString()
 
-    var hora_expedicion_cotizacion = cotizacionViewModel
-        .cotizacionDataState
+    var hora_expedicion_factura = facturaViewModel
+        .facturaDataState
         .value
-        .cotizacion_hora_expedicion
+        .factura_hora_expedicion
         .value.toString()
 
-    var mCotizacionContadorEntity = cotizacionViewModel.read("").observeAsState()
-    cotizacionViewModel.actualizarContadorDocsEmitidos(mCotizacionContadorEntity)
+    var mFacturaContadorEntity = facturaViewModel.read("").observeAsState()
+    facturaViewModel.actualizarContadorDocsEmitidos(mFacturaContadorEntity)
 
 
     var mProveedorServicioEntity = proveedorServiciosViewModel.read("").observeAsState()
@@ -111,7 +111,7 @@ fun CotizacionScreen(
     clienteViewModel.updateClienteDataState(mClienteEntity)
 
 
-    var contador_documentos_emitidos = mCotizacionContadorEntity.value?.contador
+    var contador_documentos_emitidos = mFacturaContadorEntity.value?.contador
 
 
     var proveedor_serv_identificacion = mProveedorServicioEntity.value?.identificacion
@@ -148,7 +148,7 @@ fun CotizacionScreen(
                     /** titulo - Cuenta de Cobro */
                     TextH2(
                         modifier = modifier,
-                        text =  stringResource(id = R.string.cotizacion)
+                        text =  stringResource(id = R.string.factura)
                     )
                 },
 
@@ -171,10 +171,9 @@ fun CotizacionScreen(
                         }
                     )
                 }
-
             )
-        },) { innerPadding ->
-        /** I N I C I O   S C A F O L D */
+        },) { innerPadding ->   /** I N I   S C A F O L D */
+
         LazyColumn(modifier = modifier.padding(innerPadding)) {
 
             /** HEADER  --------------------------------------------------------------------------*/
@@ -238,7 +237,7 @@ fun CotizacionScreen(
                             contentDescription = ""
                         )
 
-                        TextH3(textAlign = TextAlign.End, modifier = modifier, text = fecha_expedicion_cotizacion )
+                        TextH3(textAlign = TextAlign.End, modifier = modifier, text = fecha_expedicion_factura )
                     }
 
                     Row(modifier = Modifier.weight(1f)) {
@@ -248,7 +247,7 @@ fun CotizacionScreen(
                             contentDescription = ""
                         )
 
-                        TextH3(textAlign = TextAlign.End, modifier = modifier, text = hora_expedicion_cotizacion)
+                        TextH3(textAlign = TextAlign.End, modifier = modifier, text = hora_expedicion_factura)
                     }
                 }
 
@@ -499,6 +498,8 @@ fun CotizacionScreen(
             }
 
             /** BODY.SECCION: Boton para AGREGAR Nuevo Servicio */
+
+            /** BODY.SECCION: Boton para AGREGAR Nuevo Servicio */
             item {
 
                 if (servicioViewModel.servicioDataStore.value.listaServicioEntity.size <= 19) {
@@ -512,10 +513,13 @@ fun CotizacionScreen(
             }
 
             /** F O O T E R --------------------------------------------------------------------------*/
+
+            /** F O O T E R --------------------------------------------------------------------------*/
+            /** Botonera de acciones finales como Exportar a PDF y Comportir */
             /** Botonera de acciones finales como Exportar a PDF y Comportir */
             item {
 
-                var uri = cotizacionViewModel.pdf_generado_uri.value
+                var uri = facturaViewModel.pdf_generado_uri.value
 
                 val requestPermissionLauncher = rememberLauncherForActivityResult(
                     ActivityResultContracts.RequestPermission()
@@ -523,24 +527,27 @@ fun CotizacionScreen(
 
                     llenarEntidadesYGenerarPDF(
                         context = context,
-                        fecha_expedicion_cotizacion = fecha_expedicion_cotizacion,
-                        hora_expedicion_cotizacion = hora_expedicion_cotizacion,
+                        fecha_expedicion_factura = fecha_expedicion_factura,
+                        hora_expedicion_factura = hora_expedicion_factura,
                         imagenCorporativaViewModel = imagenCorporativaViewModel,
-                        cotizacionViewModel = cotizacionViewModel,
+                        facturaViewModel = facturaViewModel,
                         proveedorServiciosViewModel = proveedorServiciosViewModel,
                         clienteViewModel = clienteViewModel,
                         servicioViewModel = servicioViewModel
                     )
 
-                    uri = cotizacionViewModel.pdf_generado_uri.value
+                    uri = facturaViewModel.pdf_generado_uri.value
                 }
 
                 /** Esta condicion determina si el boton de exportar a PDF sea visible o no
                 valida que todos los campos de los fomularios sean informados para poder imprimie el PDF correctamente */
+
+                /** Esta condicion determina si el boton de exportar a PDF sea visible o no
+                valida que todos los campos de los fomularios sean informados para poder imprimie el PDF correctamente */
                 if (
-                    cotizacionViewModel.cotizacionDataState.value.cotizacion_numero.value!! > 0
+                    facturaViewModel.facturaDataState.value.factura_numero.value!! > 0
                     &&
-                    //cotizacionViewModel.cotizacionDataState.value.imagen_corporativa.value!! != Uri.EMPTY
+                    //facturaViewModel.facturaDataState.value.imagen_corporativa.value!! != Uri.EMPTY
                     imagenCorporativaViewModel.imagenCorporativaDataState.value.imagen_corporativa.value!! != Uri.EMPTY
                     &&
                     proveedorServiciosViewModel.proveedorServiciosDataState.value.proovedor_servicio_identificacion.value!! != ""
@@ -580,23 +587,23 @@ fun CotizacionScreen(
 
                                     llenarEntidadesYGenerarPDF(
                                         context = context,
-                                        fecha_expedicion_cotizacion = fecha_expedicion_cotizacion,
-                                        hora_expedicion_cotizacion = hora_expedicion_cotizacion,
+                                        fecha_expedicion_factura = fecha_expedicion_factura,
+                                        hora_expedicion_factura = hora_expedicion_factura,
                                         imagenCorporativaViewModel = imagenCorporativaViewModel,
-                                        cotizacionViewModel = cotizacionViewModel,
+                                        facturaViewModel = facturaViewModel,
                                         proveedorServiciosViewModel = proveedorServiciosViewModel,
                                         clienteViewModel = clienteViewModel,
                                         servicioViewModel = servicioViewModel
                                     )
 
-                                    uri = cotizacionViewModel.pdf_generado_uri.value
+                                    uri = facturaViewModel.pdf_generado_uri.value
 
                                 }
 
                                 onNavigateToDialogComparitPDF()
 
-                                cotizacionViewModel.incrementarContadorDocsEmitidos(mCotizacionContadorEntity)
-                                cotizacionViewModel.actualizarFechaHoraSistema()
+                                facturaViewModel.incrementarContadorDocsEmitidos(mFacturaContadorEntity)
+                                facturaViewModel.actualizarFechaHoraSistema()
 
                                 Toast.makeText(context,"PDF creado exitosamente!", Toast.LENGTH_SHORT).show()
 
@@ -635,9 +642,9 @@ fun CotizacionScreen(
 
                             Log.d("_xxx","---------------------------------")
 
-                            Log.d("_xxx","cuentaDeCobroViewModel: ${cuentaDeCobroViewModel.cuentaDeCobroDataState.value.cuenta_de_cobro_numero.value.toString()}")
-                            Log.d("_xxx","cuentaDeCobroViewModel: ${cuentaDeCobroViewModel.cuentaDeCobroDataState.value.cuenta_de_cobro_hora_expedicion.value}")
-                            Log.d("_xxx","cuentaDeCobroViewModel: ${cuentaDeCobroViewModel.cuentaDeCobroDataState.value.cuenta_de_cobro_fecha_expedicion.value}")
+                            Log.d("_xxx","facturaViewModel: ${facturaViewModel.facturaDataState.value.cuenta_de_cobro_numero.value.toString()}")
+                            Log.d("_xxx","facturaViewModel: ${facturaViewModel.facturaDataState.value.cuenta_de_cobro_hora_expedicion.value}")
+                            Log.d("_xxx","facturaViewModel: ${facturaViewModel.facturaDataState.value.cuenta_de_cobro_fecha_expedicion.value}")
 
                             Log.d("_xxx","---------------------------------")
 
@@ -667,32 +674,29 @@ fun CotizacionScreen(
                     )
                 }
             }
-        }
-
-        /** F I N   S C A F O L D */
-
-    }
+        } /** F I N   L A Z Y C O L U M N */
+    } /** F I N   S C A F O L D */
 }
 
 private fun llenarEntidadesYGenerarPDF(
     context: Context,
-    fecha_expedicion_cotizacion : String,
-    hora_expedicion_cotizacion : String,
+    fecha_expedicion_factura : String,
+    hora_expedicion_factura : String,
     imagenCorporativaViewModel : ImagenCorporativaViewModel,
-    cotizacionViewModel : CotizacionViewModel,
+    facturaViewModel : FacturaViewModel,
     proveedorServiciosViewModel : ProveedorServiciosViewModel,
     clienteViewModel : ClienteViewModel,
     servicioViewModel : ServicioViewModel,
 ){
 
-    cotizacionViewModel.generarCotizacionPDF(
+    facturaViewModel.generarFacturaPDF(
         context = context
-        ,mCotizacionEntity = CotizacionEntity(
-            numero_consecutivo = cotizacionViewModel.cotizacionDataState.value.cotizacion_numero.value.toString() ?: "SIN DATOS",
-            fecha_hora_generacion_reporte = "${ fecha_expedicion_cotizacion }_${ hora_expedicion_cotizacion }" ?: "SIN DATOS",
-            tipo_reporte = "Cotizacion Nº${ cotizacionViewModel.cotizacionDataState.value.cotizacion_numero.value?: 0 }",
+        ,mFacturaEntity = FacturaEntity(
+            numero_consecutivo = facturaViewModel.facturaDataState.value.factura_numero.value.toString() ?: "SIN DATOS",
+            fecha_hora_generacion_reporte = "${ fecha_expedicion_factura }_${ hora_expedicion_factura }" ?: "SIN DATOS",
+            tipo_reporte = "Factura Nº${ facturaViewModel.facturaDataState.value.factura_numero.value?: 0 }",
             total_suma_servicios = servicioViewModel.sumaTotalServicios()?: 0,
-            //imagen_corporativa_uri = cotizacionViewModel.cotizacionDataState.value.imagen_corporativa.value!! ?: Uri.EMPTY,
+            //imagen_corporativa_uri = facturaViewModel.facturaDataState.value.imagen_corporativa.value!! ?: Uri.EMPTY,
             imagen_corporativa_uri = imagenCorporativaViewModel.imagenCorporativaDataState.value.imagen_corporativa.value!! ?: Uri.EMPTY,
             mDatosPrestadorServicioEntity = ProveedorServiciosEntity(
                 identificacion = proveedorServiciosViewModel.proveedorServiciosDataState.value.proovedor_servicio_identificacion.value!! ?: "SIN DATOS",

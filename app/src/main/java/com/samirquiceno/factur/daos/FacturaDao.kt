@@ -7,17 +7,17 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.samirquiceno.factur.daos.interfaces.IBaseDao
-import com.samirquiceno.factur.models.CuentaDeCobroContadorEntity
+import com.samirquiceno.factur.models.FacturaContadorEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class CuentaDeCobroDao(
+class FacturaDao(
     val context: Context
-):IBaseDao<CuentaDeCobroContadorEntity> {
+): IBaseDao<FacturaContadorEntity> {
 
-    lateinit private var _entity: Flow<CuentaDeCobroContadorEntity?>
+    lateinit private var _entity: Flow<FacturaContadorEntity?>
 
-    private val _NOBRE_DATASTORE = "DatosCuentaDeCobro_DataStore"
+    private val _NOBRE_DATASTORE = "DatosFactura_DataStore"
 
     /** instancia de DataStore */
     val Context.dataStore: DataStore<Preferences> by
@@ -27,7 +27,7 @@ class CuentaDeCobroDao(
     val contador_datastore_key = intPreferencesKey("contador_datastore_key")
 
 
-    override suspend fun insert(entity: CuentaDeCobroContadorEntity) {
+    override suspend fun insert(entity: FacturaContadorEntity) {
 
         context.dataStore.edit {
 
@@ -36,7 +36,7 @@ class CuentaDeCobroDao(
         }
     }
 
-    override suspend fun update(entity: CuentaDeCobroContadorEntity) {
+    override suspend fun update(entity: FacturaContadorEntity) {
 
         var current_value:Int
 
@@ -52,14 +52,14 @@ class CuentaDeCobroDao(
         }
     }
 
-    override fun read(id: String): Flow<CuentaDeCobroContadorEntity?> {
+    override fun read(id: String): Flow<FacturaContadorEntity?> {
 
         _entity = context.dataStore.data.map { it->
 
             if ( it[contador_datastore_key] == null) {
                 null
             } else {
-                CuentaDeCobroContadorEntity(
+                FacturaContadorEntity(
                     contador = it[contador_datastore_key]!!,
                 )
             }
@@ -68,11 +68,11 @@ class CuentaDeCobroDao(
         return _entity
     }
 
-    override fun readAll(): Flow<ArrayList<CuentaDeCobroContadorEntity>> {
+    override fun readAll(): Flow<ArrayList<FacturaContadorEntity>> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun eliminar(entity: CuentaDeCobroContadorEntity) {
+    override suspend fun eliminar(entity: FacturaContadorEntity) {
         TODO("Not yet implemented")
     }
 }

@@ -54,7 +54,6 @@ import java.io.IOException
 @Composable
 fun CargarImagenScreen(
     navController : NavHostController,
-    //cuentaDeCobroViewModel : CuentaDeCobroViewModel,
     imagenCorporativaViewModel: ImagenCorporativaViewModel,
     modifier : Modifier = Modifier) {
 
@@ -62,18 +61,22 @@ fun CargarImagenScreen(
 
     val NOMBRE_IMAGEN_CORPORATIVA = "imagen_corporativa"
 
-    var _imagen_corp_uri_nueva by rememberSaveable { mutableStateOf<Uri?>(Uri.EMPTY) }
-    //val imagen_corp_uri_actual_xxx by rememberSaveable { mutableStateOf<Uri?>(cuentaDeCobroViewModel.readImagen(context,"imagen_corporativa")) }
-    val imagen_corp_uri_actual by rememberSaveable { mutableStateOf<Uri?>(
-        imagenCorporativaViewModel.read(
-            entity = ImagenCorporativaEntity(
-                context = context,
-                nombre = NOMBRE_IMAGEN_CORPORATIVA
-            )
-        )?.uri)
+    var _imagen_corp_uri_nueva by rememberSaveable { mutableStateOf<Uri?>( Uri.EMPTY ) }
+
+    /** var imagen_corp_uri_actual
+     * esta variable/estado toma el valor URI de la imagen que exista en el directorio interno de la app
+     * o en su defecto, si nunca se a cargado uns imagen, tomara la URI de una imagen pre-establecica
+     * en el directorio Resourses */
+    val imagen_corp_uri_actual by rememberSaveable {
+        mutableStateOf(
+            imagenCorporativaViewModel.read(
+                entity = ImagenCorporativaEntity(
+                    context = context,
+                    nombre = NOMBRE_IMAGEN_CORPORATIVA
+                )
+            )?.uri
+        )
     }
-
-
 
     var  pickerMedia = rememberLauncherForActivityResult(
         ActivityResultContracts.PickVisualMedia()
@@ -90,12 +93,6 @@ fun CargarImagenScreen(
                 /** guardado de mi imagen */
                 runBlocking {
 
-                    /*
-                    cuentaDeCobroViewModel
-                        .insertarImagen(context = context, nombre_imagen = "imagen_corporativa",uri = uri!!)
-                    _imagen_corp_uri_nueva = uri
-                    */
-
                     imagenCorporativaViewModel.insert(
                         entity = ImagenCorporativaEntity(
                             context = context,
@@ -104,11 +101,15 @@ fun CargarImagenScreen(
                         )
                     )
 
-
+                    /** si la imagen se actualiza, aqui se anctualiza la nueva URI
+                     *  y se actualiza el nuevo estado en la variable _imagen_corp_uri_nueva */
+                    _imagen_corp_uri_nueva = uri
 
                 } ?: throw Exception("URI nula")
             } else {
-                Toast.makeText(context,"La imagen seleccionada no tiene las dimensiones requeridas",
+                Toast.makeText(
+                    context,
+                    "La imagen seleccionada no tiene las dimensiones requeridas",
                     Toast.LENGTH_LONG).show()
             }
 
@@ -162,7 +163,6 @@ fun CargarImagenScreen(
                                 onClick = {
                                     //navController.popBackStack()
                                     navController.navigateUp()
-                                    //Toast.makeText(context,"Boton de Menu OK!",Toast.LENGTH_SHORT).show()
                                 }
                             )
                         }
@@ -174,62 +174,35 @@ fun CargarImagenScreen(
     ) { innerPadding ->
 
         LazyColumn(
+
             verticalArrangement = Arrangement.spacedBy(77.dp, Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = modifier.padding(innerPadding).fillMaxSize()) {
 
-            /*
             item {
-                TextH2 (
-                    modifier = modifier,
-                    text = stringResource(id = R.string.imagen_corporativa)
-                )
-            }
-            */
 
-            item {
-                /*
+                /** si detecta una diferencia entrw (_imagen_corp_uri_nueva) y (imagen_corp_uri_actual)
+                 * las variables/estados, se igualan para generar una recomposicion de la IU y que se
+                 * puede leer en tiempo real la nueva imagen */
                 if (imagen_corp_uri_actual != _imagen_corp_uri_nueva){
-
-                    AsyncImage(
-                        model = runBlocking {
-                            cuentaDeCobroViewModel
-                        },
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = modifier.fillMaxSize().size(10.dp)
-                    )
 
                     _imagen_corp_uri_nueva = imagen_corp_uri_actual
 
                 } else {
 
                     AsyncImage(
-                        model = runBlocking{
-                            cuentaDeCobroViewModel.cuentaDeCobroDataState.value.imagen_corporativa.value
-                        },
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
-                        modifier = modifier.fillMaxSize()
+                        modifier = modifier.fillMaxSize(),
+                        model = runBlocking{
+                            imagenCorporativaViewModel
+                                .imagenCorporativaDataState
+                                .value
+                                .imagen_corporativa
+                                .value
+                        },
                     )
                 }
-                */
-
-                if (imagen_corp_uri_actual != _imagen_corp_uri_nueva){
-
-                    _imagen_corp_uri_nueva = imagen_corp_uri_actual
-
-                }
-
-                AsyncImage(
-                    model = runBlocking{
-                        //cuentaDeCobroViewModel.cuentaDeCobroDataState.value.imagen_corporativa.value
-                        imagenCorporativaViewModel.imagenCorporativaDataState.value.imagen_corporativa.value
-                    },
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = modifier.fillMaxSize()
-                )
 
                 TextH3(
                     modifier = modifier,
@@ -257,24 +230,6 @@ fun CargarImagenScreen(
                     }
                 )
             }
-
-            /*
-            item {
-                CargarImagenIntent(
-                    navController = navController,
-                    cuentaDeCobroViewModel = cuentaDeCobroViewModel,
-                    modifier = modifier
-                )
-            }
-            */
         }
-
-        /*
-        CargarImagenIntent(
-            navController = navController,
-            cuentaDeCobroViewModel = cuentaDeCobroViewModel,
-            modifier = modifier)
-
-         */
     }
 }

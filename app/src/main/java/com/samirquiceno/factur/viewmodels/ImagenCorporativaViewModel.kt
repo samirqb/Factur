@@ -1,8 +1,6 @@
 package com.samirquiceno.factur.viewmodels
 
-import android.annotation.SuppressLint
 import android.app.Application
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -29,22 +27,16 @@ class ImagenCorporativaViewModel(
     val imagenCorporativaDataState: StateFlow<ImagenCorporativaDataState> = _imagenCorporativaDataState.asStateFlow()
 
 
-    @SuppressLint("StaticFieldLeak")
     val context = getApplication<mApplication>().applicationContext
 
 
     val NOMBRE_IMAGEN_CORPORATIVA = "imagen_corporativa"
 
+    /** init{...}
+     * este bloque de codigo solo se inicia cuado la app arranca desde cero onCreate,
+     * nunca se va a ejecutar cuando se navega dentro de la app, se pausa y  salga de estado pausa */
     init {
 
-        /*
-        updateImagenStatusFromRepo(
-            //readImagen(context = context, nombre_imagen = "imagen_corporativa")
-        )
-
-
-        */
-        //este bloque daña todo
         updateImagenStatusFromRepo(
             read(entity = ImagenCorporativaEntity(
                 context = context,
@@ -52,9 +44,6 @@ class ImagenCorporativaViewModel(
                 )
             )
         )
-
-        Log.d("_xxx","OLIX->updateImagenStatusFromRepo")
-        Log.d("_xxx","OLIX->${imagenCorporativaDataState.value.imagen_corporativa.value?.path}")
     }
 
 
@@ -68,26 +57,37 @@ class ImagenCorporativaViewModel(
                 imagen_corporativa = _imagenCorporativaDataState.value.imagen_corporativa,
             )
         }
+
     }
 
     override suspend fun update(entity: ImagenCorporativaEntity) {
+
         TODO("Not yet implemented")
+
     }
 
     override fun read(id: String): LiveData<ImagenCorporativaEntity?> {
+
         TODO("Not yet implemented")
+
     }
     fun read(entity: ImagenCorporativaEntity): ImagenCorporativaEntity? {
+
         val imagenCorporativaEntity = _mImagenCorporativaRepository.read(entity)
         return imagenCorporativaEntity
+
     }
 
     override fun readAll(): LiveData<ArrayList<ImagenCorporativaEntity>> {
+
         TODO("Not yet implemented")
+
     }
 
     override suspend fun eliminar(entity: ImagenCorporativaEntity) {
+
         TODO("Not yet implemented")
+
     }
 
     //fun updateImagenStatusFromRepo(entity : LiveData<ImagenCorporativaEntity?>){
@@ -102,6 +102,7 @@ class ImagenCorporativaViewModel(
                 imagen_corporativa = _imagenCorporativaDataState.value.imagen_corporativa,
             )
         }
+
     }
 
 
@@ -118,7 +119,11 @@ class ImagenCorporativaViewModel(
                     application = application,
                     _mImagenCorporativaRepository = imagen_corporativa_repository
                 )
+
             }
+
         }
+
     }
+
 }

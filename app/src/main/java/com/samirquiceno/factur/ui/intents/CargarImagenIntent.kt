@@ -51,7 +51,9 @@ fun CargarImagenIntent(navController:NavHostController,
         )?.uri)
     }
 
-    var  pickerMedia = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia())  { uri:Uri? ->
+    var  pickerMedia = rememberLauncherForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ){ uri:Uri? ->
 
         try {
 
@@ -80,7 +82,8 @@ fun CargarImagenIntent(navController:NavHostController,
                     _imagen_corp_uri_nueva = uri
                 } ?: throw Exception("URI nula")
             } else {
-                Toast.makeText(context,"La imagen seleccionada no tiene las dimensiones requeridas",Toast.LENGTH_LONG).show()
+                Toast.makeText( context, "La imagen seleccionada no tiene las dimensiones requeridas",
+                    Toast.LENGTH_LONG ).show()
             }
 
 

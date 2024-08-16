@@ -18,6 +18,7 @@ import com.samirquiceno.factur.ui.screens.CargarImagenScreen
 import com.samirquiceno.factur.ui.screens.ClienteFormScreen
 import com.samirquiceno.factur.ui.screens.CotizacionScreen
 import com.samirquiceno.factur.ui.screens.CuentaDeCobroScreen
+import com.samirquiceno.factur.ui.screens.FacturaScreen
 import com.samirquiceno.factur.ui.screens.MainScreen
 import com.samirquiceno.factur.ui.screens.ProveedorServiciosFormScreen
 import com.samirquiceno.factur.ui.screens.ServicioFormScreen
@@ -26,6 +27,7 @@ import com.samirquiceno.factur.ui.screens.dialogs.EditarContadorDocsEmitidosScre
 import com.samirquiceno.factur.viewmodels.ClienteViewModel
 import com.samirquiceno.factur.viewmodels.CotizacionViewModel
 import com.samirquiceno.factur.viewmodels.CuentaDeCobroViewModel
+import com.samirquiceno.factur.viewmodels.FacturaViewModel
 import com.samirquiceno.factur.viewmodels.ImagenCorporativaViewModel
 import com.samirquiceno.factur.viewmodels.ProveedorServiciosViewModel
 import com.samirquiceno.factur.viewmodels.ServicioViewModel
@@ -52,6 +54,9 @@ fun MiNavHost(
 
     mCotizacionViewModel : CotizacionViewModel =
         viewModel(factory = CotizacionViewModel.Factory),
+
+    mFacturaViewModel : FacturaViewModel =
+        viewModel(factory = FacturaViewModel.Factory),
 
     mImagenCorporativaViewModel: ImagenCorporativaViewModel =
         viewModel(factory = ImagenCorporativaViewModel.Factory)
@@ -148,8 +153,9 @@ fun MiNavHost(
             EditarContadorDocsEmitidosScreenDialog(
                 modifier = modifier,
                 navController = navController,
-                cuentaDeCobroViewModel = mCuentaDeCobroViewModel,
                 cotizacionViewModel = mCotizacionViewModel,
+                cuentaDeCobroViewModel = mCuentaDeCobroViewModel,
+                facturaViewModel = mFacturaViewModel,
                 contador_id = contador_id
             )
         }
@@ -205,6 +211,24 @@ fun MiNavHost(
                 , clienteViewModel = mClienteViewModel
                 , servicioViewModel = mServicioViewModel
                 , cotizacionViewModel = mCotizacionViewModel
+                , modifier = modifier
+            )
+        }
+
+        composable(
+            route = Screen.FacturaScreenRoute.route_screen
+        ) {
+
+            FacturaScreen(
+                navController = navController
+                //, onNavigateToDialog = { navController.navigate(route = Screen.EditarContadorDocsEmitidosFormScreenRoute.route_screen) }
+                , onNavigateToDialog = { navController.navigate(route = Screen.EditarContadorDocsEmitidosFormScreenRoute.route_screen+"/contador_factura") }
+                , onNavigateToDialogComparitPDF = { navController.navigate(route = Screen.CompartirPDFScreenRoute.route_screen) }
+                , imagenCorporativaViewModel = mImagenCorporativaViewModel
+                , proveedorServiciosViewModel = mProveedorServiciosViewModel
+                , clienteViewModel = mClienteViewModel
+                , servicioViewModel = mServicioViewModel
+                , facturaViewModel = mFacturaViewModel
                 , modifier = modifier
             )
         }

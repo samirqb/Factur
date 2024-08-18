@@ -2,7 +2,6 @@ package com.samirquiceno.factur.ui.screens
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -214,7 +213,32 @@ fun MainScreen(
                                     }
 
                                 },
-                                onClick = { Toast.makeText(context,"Acerca de",Toast.LENGTH_SHORT).show()}
+                                onClick = {
+                                    display_menu = false
+                                    navController.navigate( route = Screen.AcercaDeScreenRoute.route_screen )
+                                }
+                            )
+
+                            Divider()
+
+                            DropdownMenuItem(
+                                text = {
+                                    Row {
+                                        Icon(
+                                            //tint = onPrimaryLight,
+                                            modifier = Modifier.size(30.dp),
+                                            painter = painterResource(id = R.drawable.baseline_privacy_tip_24), contentDescription = null)
+
+                                        Spacer(modifier = Modifier.padding(5.dp))
+
+                                        TextH3(text = "Politicas")
+                                    }
+
+                                },
+                                onClick = {
+                                    display_menu = false
+                                    navController.navigate( route = Screen.PoliticasWebViewScreenRoute.route_screen )
+                                }
                             )
                         }
                     )

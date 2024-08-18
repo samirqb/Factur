@@ -87,4 +87,7 @@ dependencies {
     //Cargar imagenes
     //noinspection UseTomlInstead
     implementation("io.coil-kt:coil-compose:2.5.0")
+
+    //WebKit - Webview
+    implementation(libs.androidx.webkit)
 }

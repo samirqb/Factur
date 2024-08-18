@@ -11,4 +11,6 @@ sealed class Screen(val route_screen : String) {
     object  CotizacionScreenRoute: Screen(route_screen = "cotizacion_screen_route")
     object  FacturaScreenRoute: Screen(route_screen = "factura_screen_route")
     object  CargarImagenScreenRoute: Screen(route_screen = "cargar_imagen_screen_route")
+    object  PoliticasWebViewScreenRoute: Screen(route_screen = "politicas_webview_screen_route")
+    object  AcercaDeScreenRoute: Screen(route_screen = "acerca_de_screen_route")
 }

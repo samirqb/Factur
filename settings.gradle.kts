@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Mi Cuenta de Cobro"
+rootProject.name = "Factur"
 include(":app")

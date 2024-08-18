@@ -14,12 +14,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.samirquiceno.factur.ui.screens.AcercaDeScreen
 import com.samirquiceno.factur.ui.screens.CargarImagenScreen
 import com.samirquiceno.factur.ui.screens.ClienteFormScreen
 import com.samirquiceno.factur.ui.screens.CotizacionScreen
 import com.samirquiceno.factur.ui.screens.CuentaDeCobroScreen
 import com.samirquiceno.factur.ui.screens.FacturaScreen
 import com.samirquiceno.factur.ui.screens.MainScreen
+import com.samirquiceno.factur.ui.screens.PoliticasWebViewScreen
 import com.samirquiceno.factur.ui.screens.ProveedorServiciosFormScreen
 import com.samirquiceno.factur.ui.screens.ServicioFormScreen
 import com.samirquiceno.factur.ui.screens.dialogs.CompartirPDFScreenDialog
@@ -229,6 +231,27 @@ fun MiNavHost(
                 , clienteViewModel = mClienteViewModel
                 , servicioViewModel = mServicioViewModel
                 , facturaViewModel = mFacturaViewModel
+                , modifier = modifier
+            )
+        }
+
+        composable(
+            route = Screen.PoliticasWebViewScreenRoute.route_screen
+        ) {
+
+            PoliticasWebViewScreen(
+                navController = navController
+                , modifier = modifier
+            )
+        }
+
+
+        composable(
+            route = Screen.AcercaDeScreenRoute.route_screen
+        ) {
+
+            AcercaDeScreen(
+                navController = navController
                 , modifier = modifier
             )
         }

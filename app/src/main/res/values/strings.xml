@@ -16,32 +16,20 @@
     <string name="boton_cancelar">"Cancelar "</string>
     <string name="boton_aceptar">"Guardar "</string>
 
-    <string name="proovedor_servicio_uri">Ubicacion imagen</string>
-
     <string name="buscar_imagen">"Buscar imagen "</string>
 
     <string name="buscar_imagen_info">NOTA: Las dimensiones de la imagen debe ser de 100px de alto x 140px de ancho</string>
 
-    <string name="datos_proveedor_servicio">Datos Comerciante</string>
-    <string name="datos_vendedor">Datos Vendedor</string>
     <string name="datos_cliente">Datos Cliente</string>
 
-    <string name="nueva_cuenta_cobro">Nueva Cuenta de Cobro</string>
     <string name="informacion_no_disponible">Informacion no disponible</string>
     <string name="lista_servicios_contratados">Lista de Servicios Contratados</string>
     <string name="servicio_cantidad">Cantidad</string>
     <string name="servicio_descripcion">Descripcion del servicio</string>
     <string name="servicio_valor_unitario">Valor unitario</string>
-    <string name="servicio_valor_total">Valor Total</string>
     <string name="servicio_titulo_form">Agregar servicio</string>
-    <string name="boton_agregar">Agregar</string>
     <string name="doble_tap_eliminar">Doble tap para eliminar!</string>
     <string name="total_servicio">"Total: "</string>
-    <string name="proovedor_servicio_nombre">Proveedor de servicios nombre</string>
-    <string name="proovedor_servicio_identificacion">Proveedor de servicios identificacion</string>
-    <string name="proovedor_servicio_ubicacion">Proveedor de servicios ubicacion</string>
-    <string name="proovedor_servicio_telefono">Proveedor de servicios telefono</string>
-    <string name="proovedor_servicio_email">Proveedor de servicios email</string>
     <string name="cliente_nombre">Cliente nombre</string>
     <string name="cliente_identificacin">Cliente identificacion</string>
     <string name="cliente_ubicacion">Cliente ubicacion</string>
@@ -50,33 +38,26 @@
     <string name="cuenta_cobro">Cuenta de cobro</string>
     <string name="factura">Factura</string>
     <string name="cotizacion">Cotizacion</string>
-    <string name="editar_contador_docs_emitidos">Editar contador de Documentos emitidos</string>
     <string name="exportar_a_PDF">"Exportar a PDF "</string>
     <string name="compartir">Compartir</string>
     <string name="num_onsecutivo">Consecutivo</string>
-    <string name="actualizar">Actualizar</string>
     <string name="imagen_corporativa">Img Corporativa</string>
-    <string name="guardar_imagen">Guadar imagen</string>
-    <string name="vista_previa">(Vista previa)</string>
     <string name="ingrese_num_consecutivo">Ingrese numero consecutivo</string>
     <string name="fecha_y_hora_expedicion">"Fecha y hora de expedicion: "</string>
     <string name="compartir_pdf">"Compartir PDF"</string>
     <string name="desea_compartir_pdf">Desea compartir el PDF generado?</string>
     <string name="boton_agregar_servicio">"Agregar servicio "</string>
     <string name="inicio">Inicio</string>
-    <string name="menu">Menu</string>
     <string name="antes_de_iniciar">"Para usar Factur debes ingresa los datos del comerciante o comercio antes de generar facturas, cuentas de cobro o cotizaciones."</string>
     <string name="bienvenido">Bienvenido!</string>
-    <string name="ingresa_desde_aqui">"Ingresar datos aqui!"</string>
-    <string name="si">Si</string>
-    <string name="no_compartir">"No compartir"</string>
     <string name="servicio_no_guardado">Cancelar: No se guardo el servicio.</string>
     <string name="no">No</string>
     <string name="titulo_screen_politicas">Politicas</string>
 
     <!-- ACERCA DE: -->
     <string name="acerca_titulo">Acerca de</string>
-    <string name="acerca_text">"Desarrollada por Samir Quiceno Bermúdez, esta aplicación constituye un proyecto personal de desarrollo móvil para la plataforma Android, con el objetivo de explorar las capacidades de este sistema operativo."</string>
+    <string name="acerca_text_a">"Factur es accesible para todos, fácil de usar y no requiere conocimientos técnicos previos, lo que la hace perfecta para usuarios de cualquier nivel de experiencia; Factur es intuitiva y fácil de navegar, para que todos puedan disfrutar de sus beneficios."</string>
+    <string name="acerca_text_b">"Factur es desarrollada por Samir Quiceno Bermúdez, esta aplicación constituye un proyecto personal de desarrollo móvil para la plataforma Android, con el objetivo de explorar las capacidades de este sistema operativo."</string>
 
 
     <!-- POLITICAS DE LA APP -->
@@ -85,7 +66,7 @@
     <string name="pol_recopilacion">"Recopilación de información personal"</string>
     <string name="pol_recopilacion_text">"La Aplicación no recopila ningún tipo de información personal sobre usted. No solicitamos ni almacenamos ninguna información personal, como su nombre, dirección, dirección de correo electrónico, número de teléfono o información financiera."</string>
     <string name="pol_uso_diculgacion">"Uso y divulgación de información personal"</string>
-    <string name="pol_uso_diculgacion_text">"Dado que no recopilamos ninguna información personal, no la podemos utiliza ni la divulgamos a terceros."</string>
+    <string name="pol_uso_diculgacion_text">"Dado que no recopilamos ninguna información personal, no tenemos la posibilidad de utilizarla o divulgarla a terceros."</string>
     <string name="pol_seguridad_de_la_info">"Seguridad de la información"</string>
     <string name="pol_seguridad_de_la_info_text">"La Aplicacion esta desarrollada con los mas altos estandares de calidad haciendo uso de codigo seguro, le recordamos que no recopilamos ninguna información personal, la informacion ingresada en la Aplicación se almacena unicamente dentro del dispositivo del usuario."</string>
     <string name="pol_responsabilidad_usuario">"Responsabilidad del usuario"</string>

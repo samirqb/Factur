@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.samirquiceno.factur"
+    namespace = "com.samirqb.factur"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.samirquiceno.factur"
+        applicationId = "com.samirqb.factur"
         minSdk = 29
         targetSdk = 34
         versionCode = 1

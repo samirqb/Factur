@@ -30,7 +30,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.samirquiceno.factur.fileprovider"
+            android:authorities="com.samirqb.factur.file provider"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data

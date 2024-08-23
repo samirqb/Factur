@@ -698,7 +698,7 @@ private fun llenarEntidadesYGenerarPDF(
         ,mFacturaEntity = FacturaEntity(
             numero_consecutivo = facturaViewModel.facturaDataState.value.factura_numero.value.toString() ?: "SIN DATOS",
             fecha_hora_generacion_reporte = "${ fecha_expedicion_factura } ${ hora_expedicion_factura }" ?: "SIN DATOS",
-            tipo_reporte = "Factura Nº${ facturaViewModel.facturaDataState.value.factura_numero.value?: 0 }",
+            tipo_reporte = "Doc Equivalente Nº${ facturaViewModel.facturaDataState.value.factura_numero.value?: 0 }",
             total_suma_servicios = servicioViewModel.sumaTotalServicios()?: 0,
             //imagen_corporativa_uri = facturaViewModel.facturaDataState.value.imagen_corporativa.value!! ?: Uri.EMPTY,
             imagen_corporativa_uri = imagenCorporativaViewModel.imagenCorporativaDataState.value.imagen_corporativa.value!! ?: Uri.EMPTY,

@@ -73,6 +73,7 @@ import kotlinx.coroutines.runBlocking
 fun CotizacionScreen(
     navController: NavHostController
     , onNavigateToDialog: () -> Unit
+    , onNavigateToDialog2: () -> Unit
     , onNavigateToDialogComparitPDF: () -> Unit
     //, onDismissRequest : ()-> Unit
     , modifier: Modifier
@@ -97,6 +98,12 @@ fun CotizacionScreen(
         .cotizacionDataState
         .value
         .cotizacion_hora_expedicion
+        .value.toString()
+
+    var vigencia_cotizacion = cotizacionViewModel
+        .cotizacionDataState
+        .value
+        .cotizacion_vigencia
         .value.toString()
 
     var mCotizacionContadorEntity = cotizacionViewModel.read("").observeAsState()
@@ -394,6 +401,33 @@ fun CotizacionScreen(
                         onClick = { },
                     )
                 }
+                Spacer(modifier = modifier)
+                Spacer(modifier = modifier)
+            }
+
+            item {
+
+                CustomCardComponent(
+                    titulo = {
+                        TextH2 (
+                            modifier = modifier,
+                            text = stringResource(id = R.string.titulo_vigencia)
+                        )
+                    },
+
+                    content = {
+                        TextH3(
+                            modifier = modifier,
+                            text = stringResource(id = R.string.txt_vigencia_2).format(vigencia_cotizacion)
+                        )
+                    },
+
+                    modifier = modifier,
+                    onClick = {
+                        //navController.navigate(route = Screen.VigenciaCotizacionScreenRoute.route_screen)
+                        onNavigateToDialog2()
+                    }
+                )
             }
 
             /** BODY.SECCION: titulo lista de servicios */
@@ -695,10 +729,10 @@ private fun llenarEntidadesYGenerarPDF(
         ,mCotizacionEntity = CotizacionEntity(
             numero_consecutivo = cotizacionViewModel.cotizacionDataState.value.cotizacion_numero.value.toString() ?: "SIN DATOS",
             fecha_hora_generacion_reporte = "${ fecha_expedicion_cotizacion } ${ hora_expedicion_cotizacion }" ?: "SIN DATOS",
-            tipo_reporte = "Cotizacion Nº${ cotizacionViewModel.cotizacionDataState.value.cotizacion_numero.value?: 0 }",
+            tipo_reporte = "Cotización Nº${ cotizacionViewModel.cotizacionDataState.value.cotizacion_numero.value?: 0 }",
             total_suma_servicios = servicioViewModel.sumaTotalServicios()?: 0,
-            //imagen_corporativa_uri = cotizacionViewModel.cotizacionDataState.value.imagen_corporativa.value!! ?: Uri.EMPTY,
             imagen_corporativa_uri = imagenCorporativaViewModel.imagenCorporativaDataState.value.imagen_corporativa.value!! ?: Uri.EMPTY,
+            vigencia = cotizacionViewModel.cotizacionDataState.value.cotizacion_vigencia.value ?: 0,
             mDatosPrestadorServicioEntity = ProveedorServiciosEntity(
                 identificacion = proveedorServiciosViewModel.proveedorServiciosDataState.value.proovedor_servicio_identificacion.value!! ?: "SIN DATOS",
                 nombre = proveedorServiciosViewModel.proveedorServiciosDataState.value.proovedor_servicio_nombre.value!! ?: "SIN DATOS",

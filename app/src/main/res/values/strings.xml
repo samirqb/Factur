@@ -36,7 +36,7 @@
     <string name="cliente_telefono">Cliente telefono</string>
     <string name="cliente_email">Cliente email</string>
     <string name="cuenta_cobro">Cuenta de cobro</string>
-    <string name="factura">Factura</string>
+    <string name="factura">Doc Equivalente</string>
     <string name="cotizacion">Cotizacion</string>
     <string name="exportar_a_PDF">"Exportar a PDF "</string>
     <string name="compartir">Compartir</string>
@@ -53,6 +53,9 @@
     <string name="servicio_no_guardado">Cancelar: No se guardo el servicio.</string>
     <string name="no">No</string>
     <string name="titulo_screen_politicas">Politicas</string>
+    <string name="titulo_vigencia">Vigencia Cotización</string>
+    <string name="txt_vigencia">La vigencia de la cotización es de %1$s días hábiles a partir de la fecha de emisión</string>
+    <string name="txt_vigencia_2">La vigencia es de %1$s días hábiles</string>
 
     <!-- ACERCA DE: -->
     <string name="acerca_titulo">Acerca de</string>

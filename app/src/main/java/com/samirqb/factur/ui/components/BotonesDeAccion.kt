@@ -56,7 +56,7 @@ fun BotonesIconosDeAccion(
     onGuardar : ()-> Unit,
     modifier: Modifier = Modifier,
     enabledCancelButton: Boolean = true,
-    enabledGuardarButton: Boolean = true,
+    enabledGuardarButton: Boolean = false,
 ){
 
     /* botones del formulario proveedor de servicios */

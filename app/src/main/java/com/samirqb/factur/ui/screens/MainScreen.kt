@@ -33,7 +33,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -52,11 +51,7 @@ import com.samirqb.factur.ui.components.CustomCardComponentV3
 import com.samirqb.factur.ui.components.CustomIconButton2
 import com.samirqb.factur.ui.components.TextH2
 import com.samirqb.factur.ui.components.TextH3
-import com.samirqb.factur.viewmodels.ClienteViewModel
-import com.samirqb.factur.viewmodels.CuentaDeCobroViewModel
-import com.samirqb.factur.viewmodels.ImagenCorporativaViewModel
 import com.samirqb.factur.viewmodels.ProveedorServiciosViewModel
-import com.samirqb.factur.viewmodels.ServicioViewModel
 
 
 @RequiresApi(Build.VERSION_CODES.S)
@@ -65,15 +60,8 @@ import com.samirqb.factur.viewmodels.ServicioViewModel
 @Composable
 fun MainScreen(
     navController: NavHostController
-    , onNavigateToDialog: () -> Unit
-    , onNavigateToDialogComparitPDF: () -> Unit
-    //, onDismissRequest : ()-> Unit
     , modifier: Modifier
-    , imagenCorporativaViewModel: ImagenCorporativaViewModel
     , proveedorServiciosViewModel : ProveedorServiciosViewModel
-    , clienteViewModel: ClienteViewModel
-    , servicioViewModel: ServicioViewModel
-    , cuentaDeCobroViewModel: CuentaDeCobroViewModel
 ){
 
     /*** Create a boolean variable
@@ -81,8 +69,6 @@ fun MainScreen(
     var display_menu by rememberSaveable { mutableStateOf(false) }
 
     var darkTheme: Boolean = isSystemInDarkTheme()
-    var context = LocalContext.current
-
 
     var mProveedorServicioEntity = proveedorServiciosViewModel.read("").observeAsState()
     proveedorServiciosViewModel.updateProveedorServiciosDataState(mProveedorServicioEntity)
@@ -181,7 +167,6 @@ fun MainScreen(
 
                                     Row {
                                         Icon(
-                                            //tint = onPrimaryLight,
                                             modifier = Modifier.size(30.dp),
                                             painter = painterResource(id = R.drawable.baseline_image_search_24), contentDescription = null)
 
@@ -203,7 +188,6 @@ fun MainScreen(
                                 text = {
                                     Row {
                                         Icon(
-                                            //tint = onPrimaryLight,
                                             modifier = Modifier.size(30.dp),
                                             painter = painterResource(id = R.drawable.baseline_developer_mode_24), contentDescription = null)
 
@@ -224,7 +208,6 @@ fun MainScreen(
                                 text = {
                                     Row {
                                         Icon(
-                                            //tint = onPrimaryLight,
                                             modifier = Modifier.size(30.dp),
                                             painter = painterResource(id = R.drawable.baseline_privacy_tip_24), contentDescription = null)
 
@@ -354,8 +337,9 @@ fun MainScreen(
 
                         }
                     )
-                    //Icon(modifier = modifier.size(100.dp), painter = painterResource(id = R.drawable.outline_receipt_24), contentDescription = "" )
+
                     TextH3(text = stringResource(id = R.string.factura))
+
                 }
             } else {
                 item{
@@ -371,27 +355,11 @@ fun MainScreen(
 
                         content = {
 
-                            /*
-                            TextH3(
-                                color = backgroundLight,
-                                modifier = modifier,
-                                text = stringResource(id = R.string.informacion_no_disponible)
-                            )
-                            */
-
                             TextH3(
                                 color = backgroundLight,
                                 modifier = modifier,
                                 text = stringResource(id = R.string.antes_de_iniciar)
                             )
-
-                            /*
-                            TextH3(
-                                color = primaryContainerDark,
-                                modifier = modifier,
-                                text = stringResource(id = R.string.ingresa_desde_aqui)
-                            )
-                            */
 
                             CustomButton(
                                 modifier = modifier,
@@ -407,17 +375,6 @@ fun MainScreen(
                         }
                     )
                 }
-
-                /*
-                item {
-                    CustomButton(
-                        modifier = modifier,
-                        text = R.string.proovedor_servicio_titulo_form,
-                        icono = R.drawable.outline_add_business_24,
-                        onClick = { navController.navigate(route = Screen.ProveedorServiciosFormScreenRoute.route_screen) }
-                    )
-                }
-                */
             }
         }
     }

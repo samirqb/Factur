@@ -12,4 +12,5 @@ class CotizacionEntity(
     val mDatosPrestadorServicioEntity: ProveedorServiciosEntity,
     val mDatosReceptorServicioEntity: ClienteEntity,
     val mServicioEntity: List<ServicioEntity?>,
+    val vigencia: Int = 0,
 ): IBaseEntity

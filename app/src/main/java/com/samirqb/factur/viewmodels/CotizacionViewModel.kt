@@ -17,7 +17,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.samirqb.factur.mApplication
 import com.samirqb.factur.models.CotizacionContadorEntity
 import com.samirqb.factur.models.CotizacionEntity
-import com.samirqb.factur.repositories.ImagenCorporativaRepository
 import com.samirqb.factur.repositories.interfaces.IBaseRepository
 import com.samirqb.factur.tools.FechaHoraSistema
 import com.samirqb.factur.tools.GenerarCotizacionPDF_FV2
@@ -35,8 +34,6 @@ import kotlinx.coroutines.runBlocking
 class CotizacionViewModel(
     application: Application,
     private var _repository: IBaseRepository<CotizacionContadorEntity>,
-    //private var _imagen_corporativa_repository: ImagenRepository
-    private var _imagen_corporativa_repository: ImagenCorporativaRepository
 ): AndroidViewModel(application), IBaseViewModel<CotizacionContadorEntity> {
 
     //lateinit var pdf_generado_uri: Uri
@@ -58,12 +55,6 @@ class CotizacionViewModel(
     init {
 
         actualizarFechaHoraSistema()
-
-        /*
-        updateImagenStatusFromRepo(
-            readImagen(context = context, nombre_imagen = "imagen_corporativa")
-        )
-        */
 
     }
 
@@ -141,39 +132,15 @@ class CotizacionViewModel(
     }
 
 
-    /*
-    suspend fun insertarImagen(context: Context, nombre_imagen:String, uri: Uri){
-
-        _imagen_corporativa_repository.insert(context = context, nombre_imagen= nombre_imagen, uri=uri)
+    fun actualizarVigencia(nueva_vigencia: Int?){
 
         _cotizacionDataState.update {
-            it.imagen_corporativa = mutableStateOf(readImagen(context = context, nombre_imagen= nombre_imagen))
+            it.cotizacion_vigencia = mutableStateOf(nueva_vigencia)
             it.copy(
-                imagen_corporativa = _cotizacionDataState.value.imagen_corporativa,
+                cotizacion_vigencia = _cotizacionDataState.value.cotizacion_vigencia,
             )
         }
     }
-    */
-
-    fun updateImagenStatusFromRepo(uri: Uri?){
-
-        _cotizacionDataState.update {
-            it.imagen_corporativa = mutableStateOf(uri)
-            it.copy(
-                imagen_corporativa = _cotizacionDataState.value.imagen_corporativa,
-            )
-        }
-    }
-
-
-    /*
-    fun readImagen(context: Context, nombre_imagen:String): Uri?{
-
-        val uri = _imagen_corporativa_repository.read(context = context, nombre_imagen= nombre_imagen)
-
-        return uri
-    }
-    */
 
 
     fun generarCotizacionPDF(
@@ -197,12 +164,9 @@ class CotizacionViewModel(
 
                 val application = this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as Application
                 val repository = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as mApplication).mCotizacionRepository
-                val imagen_corporativa_repository = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as mApplication).mImagenCorporativaRepository
-
                 CotizacionViewModel(
                     application = application,
                     _repository = repository,
-                    _imagen_corporativa_repository = imagen_corporativa_repository
                 )
             }
         }

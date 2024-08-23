@@ -359,22 +359,26 @@ class GenerarCotizacionPDF_FV2(
                 Typeface.BOLD_ITALIC
             ))
 
-
-        /*
-        var disclaimer_txt_l1 = "Para efectos de retención en la fuente solicito se me aplique la tabla de retención establecida"
+        var disclaimer_txt_l1 = "OBSERVACIONES:"
         eje_x = 45F
-        eje_y = 745F
+        eje_y = 785F
         set_string.textAlign = Paint.Align.LEFT
         contentPag.drawText( disclaimer_txt_l1,eje_x,eje_y,set_string )
 
-        var disclaimer_txt_l2 = "en el artículo 383 del E.T, para lo cual certifico bajo la gravedad de juramento que no voy a"
-        eje_y = 760F
+        set_string.setTypeface(
+            Typeface.create(
+                Typeface.MONOSPACE,
+                Typeface.NORMAL
+            )
+        )
+        eje_x = 45F
+        eje_y = 795F
+        var disclaimer_txt_l2 = String.format( "*La vigencia de la cotización es de ${mCotizacionEntity.vigencia} días hábiles a partir de la fecha de emisión")
         contentPag.drawText( disclaimer_txt_l2,eje_x,eje_y,set_string )
-        */
 
         var disclaimer_txt_l3 = "*Este documento NO representa una compra y/o factura de venta."
         eje_x = 45F
-        eje_y = 775F
+        eje_y = 805F
         set_string.textAlign = Paint.Align.LEFT
         contentPag.drawText( disclaimer_txt_l3,eje_x,eje_y,set_string )
 

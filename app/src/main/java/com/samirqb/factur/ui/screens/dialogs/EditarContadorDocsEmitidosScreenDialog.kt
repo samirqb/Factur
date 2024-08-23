@@ -37,13 +37,6 @@ fun EditarContadorDocsEmitidosScreenDialog(
     contador_id :String?
 ) {
 
-
-    /*
-    val openAlertDialog = remember { mutableStateOf(false) }
-    var openAlertDialog2 by rememberSaveable { mutableStateOf(false) }
-    val openAlertDialog3 = rememberSaveable { mutableStateOf(false) }
-    */
-
     var contador_cotizacion by rememberSaveable { mutableStateOf("") }
     var contador_cuenta_cobro by rememberSaveable { mutableStateOf("") }
     var contador_factura by rememberSaveable { mutableStateOf("") }
@@ -116,17 +109,8 @@ fun EditarContadorDocsEmitidosScreenDialog(
                                      }
 
                         , onGuardar = {
-                            //cuentaDeCobroViewModel.incrementarContadorDocsEmitidos(value2.toInt())
 
                             runBlocking {
-
-                                /*
-                                cuentaDeCobroViewModel.insert(
-                                    entity = CuentaDeCobroContadorEntity(
-                                        contador = contador_cuenta_cobro.toInt(),
-                                    )
-                                )
-                                */
 
                                 if (contador_id == "contador_cotizacion" ){
                                     cotizacionViewModel.insert(
@@ -150,12 +134,7 @@ fun EditarContadorDocsEmitidosScreenDialog(
                                         )
                                     )
                                 }
-                                /* -> H A B I L I T A D O   P R O X I M A M E N T E
-                                */
-
                             }
-
-                            //cuentaDeCobroViewModel.actualizarContadorDocsEmitidos(value2.toInt())
 
                             //navController.popBackStack()
                             navController.navigateUp()

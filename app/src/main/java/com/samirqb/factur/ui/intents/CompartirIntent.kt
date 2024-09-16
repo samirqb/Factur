@@ -9,14 +9,20 @@ import java.io.File
 
 
 // Función para compartir el archivo PDF
-fun sharePdfFileIntent(context: Context, pdfFileUri: Uri?){
+// a continiacion un Android Sharesheet
+fun CompartiIntent(context: Context, pdfFileUri: Uri?){
+
     val pdfFile = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),pdfFileUri?.lastPathSegment!!)
+
     val pdfUri = FileProvider.getUriForFile(context, "com.samirqb.factur.fileprovider", pdfFile)
-    val shareIntent = Intent(Intent.ACTION_SEND).apply {
+
+    val sendIntent = Intent(Intent.ACTION_SEND).apply {
         type = "application/pdf"
         putExtra(Intent.EXTRA_STREAM, pdfUri)
     }
 
-    context.startActivity(Intent.createChooser(shareIntent, "Compartir PDF"))
+    val shareIntent = Intent.createChooser(sendIntent,"Compartir PDF")
 
+    //context.startActivity(Intent.createChooser(shareIntent, "Compartir PDF"))
+    context.startActivity(shareIntent)
 }

@@ -501,7 +501,6 @@ fun FacturaScreen(
 
             /** BODY.SECCION: Boton para AGREGAR Nuevo Servicio */
 
-            /** BODY.SECCION: Boton para AGREGAR Nuevo Servicio */
             item {
 
                 if (servicioViewModel.servicioDataStore.value.listaServicioEntity.size <= 19) {
@@ -514,10 +513,8 @@ fun FacturaScreen(
                 }
             }
 
-            /** F O O T E R --------------------------------------------------------------------------*/
 
             /** F O O T E R --------------------------------------------------------------------------*/
-            /** Botonera de acciones finales como Exportar a PDF y Comportir */
             /** Botonera de acciones finales como Exportar a PDF y Comportir */
             item {
 
@@ -544,8 +541,6 @@ fun FacturaScreen(
                 /** Esta condicion determina si el boton de exportar a PDF sea visible o no
                 valida que todos los campos de los fomularios sean informados para poder imprimie el PDF correctamente */
 
-                /** Esta condicion determina si el boton de exportar a PDF sea visible o no
-                valida que todos los campos de los fomularios sean informados para poder imprimie el PDF correctamente */
                 if (
                     facturaViewModel.facturaDataState.value.factura_numero.value!! > 0
                     &&
@@ -698,7 +693,8 @@ private fun llenarEntidadesYGenerarPDF(
         ,mFacturaEntity = FacturaEntity(
             numero_consecutivo = facturaViewModel.facturaDataState.value.factura_numero.value.toString() ?: "SIN DATOS",
             fecha_hora_generacion_reporte = "${ fecha_expedicion_factura } ${ hora_expedicion_factura }" ?: "SIN DATOS",
-            tipo_reporte = "Doc Equivalente Nº${ facturaViewModel.facturaDataState.value.factura_numero.value?: 0 }",
+            //tipo_reporte = "Doc Equivalente Nº${ facturaViewModel.facturaDataState.value.factura_numero.value?: 0 }",
+            tipo_reporte = "Recibo de venta Nº${ facturaViewModel.facturaDataState.value.factura_numero.value?: 0 }",
             total_suma_servicios = servicioViewModel.sumaTotalServicios()?: 0,
             //imagen_corporativa_uri = facturaViewModel.facturaDataState.value.imagen_corporativa.value!! ?: Uri.EMPTY,
             imagen_corporativa_uri = imagenCorporativaViewModel.imagenCorporativaDataState.value.imagen_corporativa.value!! ?: Uri.EMPTY,

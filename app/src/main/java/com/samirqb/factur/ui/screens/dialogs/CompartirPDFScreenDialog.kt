@@ -1,5 +1,6 @@
 package com.samirqb.factur.ui.screens.dialogs
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -11,9 +12,10 @@ import com.samirqb.factur.ui.components.BotonesIconosDeAccion_Cancel_Compartir
 import com.samirqb.factur.ui.components.CustomCardSmallComponent
 import com.samirqb.factur.ui.components.TextH2
 import com.samirqb.factur.ui.components.TextP1
-import com.samirqb.factur.ui.intents.sharePdfFileIntent
+import com.samirqb.factur.ui.intents.CompartiIntent
 import com.samirqb.factur.viewmodels.CuentaDeCobroViewModel
 import kotlinx.coroutines.runBlocking
+import okio.IOException
 
 @Composable
 fun CompartirPDFScreenDialog(
@@ -58,7 +60,16 @@ fun CompartirPDFScreenDialog(
 
                             runBlocking {
 
-                                sharePdfFileIntent(context = context, pdfFileUri = cuentaDeCobroViewModel.pdf_generado_uri.value)
+                                try {
+                                    CompartiIntent(context = context, pdfFileUri = cuentaDeCobroViewModel.pdf_generado_uri.value)
+                                } catch (e:Exception){
+                                    Log.e("_xxx","Error al tratar de compartir el PDF")
+                                    Log.e("_xxx","Exception: ${e}")
+                                } catch (ioe: IOException){
+                                    Log.e("_xxx","Error al tratar de compartir el PDF")
+                                    Log.e("_xxx","IOException: ${ioe}")
+                                }
+
                             }
 
 

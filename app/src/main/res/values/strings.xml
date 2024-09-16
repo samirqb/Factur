@@ -34,9 +34,9 @@
     <string name="cliente_identificacin">Cliente identificacion</string>
     <string name="cliente_ubicacion">Cliente ubicacion</string>
     <string name="cliente_telefono">Cliente telefono</string>
-    <string name="cliente_email">Cliente email</string>
-    <string name="cuenta_cobro">Cuenta de cobro</string>
-    <string name="factura">Doc Equivalente</string>
+    <string name="cliente_email">"Cliente email"</string>
+    <string name="cuenta_cobro">"Cuenta de cobro"</string>
+    <string name="factura">"Recibo de venta"</string>
     <string name="cotizacion">Cotizacion</string>
     <string name="exportar_a_PDF">"Exportar a PDF "</string>
     <string name="compartir">Compartir</string>

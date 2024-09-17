@@ -13,7 +13,9 @@ import com.samirqb.factur.ui.components.CustomCardSmallComponent
 import com.samirqb.factur.ui.components.TextH2
 import com.samirqb.factur.ui.components.TextP1
 import com.samirqb.factur.ui.intents.CompartiIntent
+import com.samirqb.factur.viewmodels.CotizacionViewModel
 import com.samirqb.factur.viewmodels.CuentaDeCobroViewModel
+import com.samirqb.factur.viewmodels.FacturaViewModel
 import kotlinx.coroutines.runBlocking
 import okio.IOException
 
@@ -21,7 +23,10 @@ import okio.IOException
 fun CompartirPDFScreenDialog(
     modifier: Modifier,
     navController: NavHostController,
-    cuentaDeCobroViewModel:CuentaDeCobroViewModel
+    tipo_documento: String?,
+    cuentaDeCobroViewModel: CuentaDeCobroViewModel,
+    cotizacionViewModel: CotizacionViewModel,
+    facturaViewModel: FacturaViewModel,
 ) {
 
     var context = LocalContext.current
@@ -58,20 +63,35 @@ fun CompartirPDFScreenDialog(
 
                         , onCompartir = {
 
+                            Log.i("_xxx","tipo_documento: ${tipo_documento}")
+
+                            when(tipo_documento){
+                                "cuenta_cobro" ->
+                                    Log.i("_xxx","pdf_uri_cuentaDeCobroViewModel: ${cuentaDeCobroViewModel.pdf_generado_uri.value}")
+                                "cotización" ->
+                                    Log.i("_xxx","pdf_uri_cotizacionViewModel: ${cotizacionViewModel.pdf_generado_uri.value}")
+                                "factura" ->
+                                    Log.i("_xxx","pdf_uri_facturaViewModel: ${facturaViewModel.pdf_generado_uri.value}")
+                            }
+
                             runBlocking {
 
                                 try {
-                                    CompartiIntent(context = context, pdfFileUri = cuentaDeCobroViewModel.pdf_generado_uri.value)
+                                    when(tipo_documento){
+                                        "cuenta_cobro" -> CompartiIntent(context = context, pdfFileUri = cuentaDeCobroViewModel.pdf_generado_uri.value)
+                                        "cotización" -> CompartiIntent(context = context, pdfFileUri = cotizacionViewModel.pdf_generado_uri.value)
+                                        "factura" -> CompartiIntent(context = context, pdfFileUri = facturaViewModel.pdf_generado_uri.value)
+                                    }
+                                    //CompartiIntent(context = context, pdfFileUri = cuentaDeCobroViewModel.pdf_generado_uri.value)
+                                    Log.e("_xxx","OK: PDF Compartido con exito!")
                                 } catch (e:Exception){
-                                    Log.e("_xxx","Error al tratar de compartir el PDF")
+                                    Log.e("_xxx","Error: No se puede compartir el PDF")
                                     Log.e("_xxx","Exception: ${e}")
                                 } catch (ioe: IOException){
-                                    Log.e("_xxx","Error al tratar de compartir el PDF")
+                                    Log.e("_xxx","Error: No se puede compartir el PDF")
                                     Log.e("_xxx","IOException: ${ioe}")
                                 }
-
                             }
-
 
                             //navController.popBackStack()
                             navController.navigateUp()

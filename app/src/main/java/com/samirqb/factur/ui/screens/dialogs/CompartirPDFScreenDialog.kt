@@ -68,7 +68,7 @@ fun CompartirPDFScreenDialog(
                             when(tipo_documento){
                                 "cuenta_cobro" ->
                                     Log.i("_xxx","pdf_uri_cuentaDeCobroViewModel: ${cuentaDeCobroViewModel.pdf_generado_uri.value}")
-                                "cotización" ->
+                                "cotizacion" ->
                                     Log.i("_xxx","pdf_uri_cotizacionViewModel: ${cotizacionViewModel.pdf_generado_uri.value}")
                                 "factura" ->
                                     Log.i("_xxx","pdf_uri_facturaViewModel: ${facturaViewModel.pdf_generado_uri.value}")
@@ -79,7 +79,7 @@ fun CompartirPDFScreenDialog(
                                 try {
                                     when(tipo_documento){
                                         "cuenta_cobro" -> CompartiIntent(context = context, pdfFileUri = cuentaDeCobroViewModel.pdf_generado_uri.value)
-                                        "cotización" -> CompartiIntent(context = context, pdfFileUri = cotizacionViewModel.pdf_generado_uri.value)
+                                        "cotizacion" -> CompartiIntent(context = context, pdfFileUri = cotizacionViewModel.pdf_generado_uri.value)
                                         "factura" -> CompartiIntent(context = context, pdfFileUri = facturaViewModel.pdf_generado_uri.value)
                                     }
                                     //CompartiIntent(context = context, pdfFileUri = cuentaDeCobroViewModel.pdf_generado_uri.value)

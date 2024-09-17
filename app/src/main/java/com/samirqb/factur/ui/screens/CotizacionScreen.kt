@@ -73,7 +73,7 @@ import kotlinx.coroutines.runBlocking
 fun CotizacionScreen(
     navController: NavHostController
     , onNavigateToDialog: () -> Unit
-    , onNavigateToDialog2: () -> Unit
+    , onNavigateToDialogVigenciaCotizacion: () -> Unit
     , onNavigateToDialogComparitPDF: () -> Unit
     //, onDismissRequest : ()-> Unit
     , modifier: Modifier
@@ -425,7 +425,7 @@ fun CotizacionScreen(
                     modifier = modifier,
                     onClick = {
                         //navController.navigate(route = Screen.VigenciaCotizacionScreenRoute.route_screen)
-                        onNavigateToDialog2()
+                        onNavigateToDialogVigenciaCotizacion()
                     }
                 )
             }

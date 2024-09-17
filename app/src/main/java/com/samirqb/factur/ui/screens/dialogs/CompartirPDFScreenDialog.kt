@@ -65,25 +65,28 @@ fun CompartirPDFScreenDialog(
 
                             Log.i("_xxx","tipo_documento: ${tipo_documento}")
 
-                            when(tipo_documento){
-                                "cuenta_cobro" ->
-                                    Log.i("_xxx","pdf_uri_cuentaDeCobroViewModel: ${cuentaDeCobroViewModel.pdf_generado_uri.value}")
-                                "cotizacion" ->
-                                    Log.i("_xxx","pdf_uri_cotizacionViewModel: ${cotizacionViewModel.pdf_generado_uri.value}")
-                                "factura" ->
-                                    Log.i("_xxx","pdf_uri_facturaViewModel: ${facturaViewModel.pdf_generado_uri.value}")
-                            }
-
                             runBlocking {
 
                                 try {
                                     when(tipo_documento){
-                                        "cuenta_cobro" -> CompartiIntent(context = context, pdfFileUri = cuentaDeCobroViewModel.pdf_generado_uri.value)
-                                        "cotizacion" -> CompartiIntent(context = context, pdfFileUri = cotizacionViewModel.pdf_generado_uri.value)
-                                        "factura" -> CompartiIntent(context = context, pdfFileUri = facturaViewModel.pdf_generado_uri.value)
+                                        "cuenta_cobro" -> {
+                                            Log.i("_xxx","pdf_uri_cuentaDeCobroViewModel: ${cuentaDeCobroViewModel.pdf_generado_uri.value}")
+                                            CompartiIntent(context = context, pdfFileUri = cuentaDeCobroViewModel.pdf_generado_uri.value)
+                                        }
+                                        "cotizacion" -> {
+                                            Log.i("_xxx","pdf_uri_cotizacionViewModel: ${cotizacionViewModel.pdf_generado_uri.value}")
+                                            CompartiIntent(context = context, pdfFileUri = cotizacionViewModel.pdf_generado_uri.value)
+                                        }
+                                        "factura" -> {
+                                            Log.i("_xxx","pdf_uri_facturaViewModel: ${facturaViewModel.pdf_generado_uri.value}")
+                                            CompartiIntent(context = context, pdfFileUri = facturaViewModel.pdf_generado_uri.value)
+                                        } else -> {
+                                            Log.e("_xxx","Error: No se puede compartir PDF porque el tipo_documento no existe")
+                                            Log.e("_xxx","tipo_documento: ${tipo_documento}")
+                                        }
                                     }
                                     //CompartiIntent(context = context, pdfFileUri = cuentaDeCobroViewModel.pdf_generado_uri.value)
-                                    Log.e("_xxx","OK: PDF Compartido con exito!")
+                                    //Log.e("_xxx","OK: PDF Compartido con exito!")
                                 } catch (e:Exception){
                                     Log.e("_xxx","Error: No se puede compartir el PDF")
                                     Log.e("_xxx","Exception: ${e}")
@@ -97,7 +100,6 @@ fun CompartirPDFScreenDialog(
                             navController.navigateUp()
                         }
                     )
-
                 }
             )
         }

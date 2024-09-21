@@ -9,7 +9,9 @@ android {
 
     defaultConfig {
         applicationId = "com.samirqb.factur"
-        minSdk = 29
+        minSdk = 29 // -> Android 10
+        //minSdk = 28 // -> Android 9
+        //minSdk = 24 // -> Android 7.0
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
